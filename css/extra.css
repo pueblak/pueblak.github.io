@@ -1,6 +1,6 @@
 .vertical-center {
-  min-height: 100%;  /* Fallback for browsers do NOT support vh unit */
-  min-height: 100vh; /* These two lines are counted as one :-)       */
+  min-height: 100%;
+  min-height: 100vh;
 
   display: flex;
   align-items: center;
@@ -8,4 +8,10 @@
 
 body {
     background-color: #fff5ee;
+}
+
+.detail {
+	margin-left:20px;
+	margin-top:-10px;
+	max-width:500px;
 }
