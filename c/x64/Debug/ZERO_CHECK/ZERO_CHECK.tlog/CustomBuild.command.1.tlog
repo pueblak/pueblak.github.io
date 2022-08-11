@@ -1,0 +1,10 @@
+^C:\USERS\PUEBL\DOCUMENTS\GITHUB\PERSONAL WEBSITE\C\CMAKEFILES\0D95E347AE1895CA1F0CD27A8AF2BD2C\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" "-SC:/Users/puebl/Documents/GitHub/Personal Website/c" "-BC:/Users/puebl/Documents/GitHub/Personal Website/c" --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file "C:/Users/puebl/Documents/GitHub/Personal Website/c/Chess.sln"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
