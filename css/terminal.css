@@ -1,0 +1,92 @@
+.cli {
+    font-family: 'Courier New', Courier, monospace;
+    line-height: normal;
+    color: #dddddd;
+    white-space: normal;
+    background-color: #303030;
+}
+
+text {
+    width: 0.6em;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    word-wrap: break-word;
+    z-index: -1;
+}
+
+div.output {
+    max-width: 100vw;
+}
+
+input.cli, textarea.cli {
+    border: none;
+    outline: none;
+    caret-color: transparent;
+    word-break: break-word;
+    resize: none;
+    vertical-align: bottom;
+    box-sizing: content-box;
+}
+
+.cursor {
+    animation: blink 1s step-start infinite;
+    margin-left: -1.25em;
+}
+
+.sym_link {
+    color: #72d4ff;
+}
+
+.error {
+    color: #ff7272;
+}
+
+.alert {
+    color: #72ffd4;
+}
+
+.exe {
+    color: #72ff60;
+}
+
+.dir {
+    color: #7272ff;
+}
+
+.media {
+    color: #ff72d4
+}
+
+.bold {
+    font-weight: bold;
+}
+
+@keyframes blink {
+    50% {
+        opacity: 0;
+    }
+}
+
+.fade-out-animation {
+    animation: fade-opacity 2s ease-in-out;
+    animation-fill-mode: forwards;
+    opacity: 1;
+}
+
+@keyframes fade-opacity {
+    100% {
+        opacity: 0;
+    }
+}
+
+.fade-color-animation {
+    animation: fade-color 2.6s ease-in-out;
+    animation-fill-mode: forwards;
+    background-color: #303030;
+}
+
+@keyframes fade-color {
+    100% {
+        background-color: #000022
+    }
+}

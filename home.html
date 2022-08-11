@@ -1,0 +1,210 @@
+<html>
+	<head>
+        <title>Home - Kody Puebla</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" charset="utf-8" href="css/terminal.css">
+        <link rel="stylesheet" type="text/css" charset="utf-8" href="css/home.css">
+        <script type="text/javascript" charset="utf-8" src="js/three.js"></script>
+        <script type="text/javascript" charset="utf-8" src="js/terminal.js"></script>
+        <script type="text/javascript" charset="utf-8" src="js/random.js"></script>
+    </head>
+    <body id="body">
+        <div id="title" class="title">
+            <div>
+                <text style="color:#70d4ff">Kody</text><text style="margin-left:4%;color:#70d4ff">Puebla</text><br>
+            </div>
+            <div><text style="font-size: 0.75rem;color: #70d4ff">Beep boop. I write code.</text></div>
+        </div>
+        <div class="nav-container">
+            <div id="filler"></div>
+            <div id="navigation" class="navigation">
+                <text class="selection" style="align-self: flex-start;--anim-delay: 4" onclick="navigate('about.html')"><text style="color: #f5f360;font-size: 1.2em">LEARN</text> about me</text>
+                <text class="selection" style="align-self: center;--anim-delay: 5" onclick="navigate('projects.html')"><text style="color: #70d4ff;font-size: 1.2em">EXPLORE</text> my work</text>
+                <text class="selection" style="align-self: flex-end;--anim-delay: 6" onclick="navigate('contact.html')"><text style="color: #db6673;font-size: 1.2em">CONNECT</text> with me</text>
+            </div>
+        </div>
+        <canvas id="canvas"></canvas>
+        <script>
+            const loader = new THREE.TextureLoader()
+            const binary0 = loader.load('../resources/binary0.png')
+            const binary1 = loader.load('../resources/binary1.png')
+            
+            const scene = new THREE.Scene()
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
+            const renderer = new THREE.WebGLRenderer({
+                antialias: true,
+                canvas: document.querySelector('#canvas')
+            })
+
+            renderer.setPixelRatio(window.devicePixelRatio)
+            renderer.setSize(window.innerWidth, window.innerHeight)
+            camera.position.setX(74)
+            camera.position.setY(120)
+            camera.position.setZ(32)
+            scene.background = new THREE.Color(0x000022)
+
+            const ambientLight = new THREE.AmbientLight(0xd4ffd4, 1);
+            scene.add(ambientLight);
+
+            renderer.render(scene, camera)
+
+            const groupA = new THREE.Group()
+            const groupB = new THREE.Group()
+            const groupFastA = new THREE.Group()
+            const groupFastB = new THREE.Group()
+            scene.add(groupA, groupB, groupFastA, groupFastB)
+
+            const torusPointsA = []
+            const torusPointsB = []
+            var innerCountA = 0;
+            var innerCountB = 0;
+            for (let r = 1; r < 8; r++) {
+                var n_vertices = r < 6 ? 50 * (r + 1) : 80 * Math.abs(r - 8)
+                const geometryA = new THREE.TorusGeometry(40, r, 16, n_vertices)
+                const verticesA = geometryA.attributes.position.array
+                for (let i = 0; i < verticesA.length; i++)
+                    torusPointsA.push(verticesA[i])
+                if (r < 5)
+                    innerCountA += verticesA.length
+                const geometryB = new THREE.TorusGeometry(160, r, 16, n_vertices * 8)
+                const verticesB = geometryB.attributes.position.array
+                for (let i = 0; i < verticesB.length; i++)
+                    torusPointsB.push(verticesB[i])
+                if (r < 5)
+                    innerCountB += verticesB.length
+            }
+
+            function randomVertexSample(vertices, k) {
+                const indices = []
+                const sample = new Float32Array(k * 3)
+                while (indices.length < k) {
+                    const index = Math.floor(Math.random() * vertices.length / 3) * 3
+                    if (!indices.includes(index)) {
+                        sample[indices.length * 3] = vertices[index]
+                        sample[indices.length * 3 + 1] = vertices[index + 1]
+                        sample[indices.length * 3 + 2] = vertices[index + 2]
+                        indices.push(index)
+                    }
+                }
+                return sample
+            }
+
+            for (let i = 0; i < 2; i++) {
+                const group = i == 0 ? groupA : groupB
+                const groupFast = i == 0 ? groupFastA : groupFastB
+                const torusPoints = i == 0 ? torusPointsA : torusPointsB
+                const innerCount = i == 0 ? innerCountA : innerCountB
+                const binaryCount = i == 0 ? 600 : 2000
+                const sphereCount = i == 0 ? 40 : 200
+                const binarySample = randomVertexSample(torusPoints, binaryCount * 4)
+                const sphereSample = randomVertexSample(torusPoints.slice(0, innerCount), sphereCount * 2)
+                for (let j = 0; j < 6; j++) {
+                    const binaryGeometry = new THREE.BufferGeometry
+
+                    const binaryPosArray = new Float32Array((j < 4 ? binaryCount : sphereCount) * 3)
+
+                    for (let k = 0; k < (j < 4 ? binaryCount : sphereCount); k++) {
+                        const x = ((j < 4 ? binaryCount * j : sphereCount * (j - 4)) + k) * 3
+                        const y = x + 1
+                        const z = x + 2
+                        var sample = j < 4 ? binarySample : sphereSample
+                        binaryPosArray[k * 3] = sample[x]
+                        binaryPosArray[k * 3 + 1] = sample[y]
+                        binaryPosArray[k * 3 + 2] = sample[z]
+                    }
+
+                    binaryGeometry.setAttribute('position', new THREE.BufferAttribute(binaryPosArray, 3))
+                    const binaryMaterial = new THREE.PointsMaterial({
+                        color: j < 4 ? 0x70ff70 : 0x70d4ff,
+                        size: 0.5,
+                        map: j % 2 == 0 ? binary1 : binary0,
+                        transparent: true,
+                        opacity: j < 2 ? 0.45 : 0.9,
+                        depthWrite: false,
+                        depthTest: false,
+                        blending: THREE.AdditiveBlending
+                    })
+                    const binaryMesh = new THREE.Points(binaryGeometry, binaryMaterial)
+                    if (j < 4)
+                        group.add(binaryMesh)
+                    else
+                        groupFast.add(binaryMesh)
+                }
+            }
+
+            for (let group of [groupA, groupB, groupFastA, groupFastB]) {
+                group.rotation.x += Math.PI * 0.6
+                group.rotation.y += Math.PI * 0.02
+                group.position.x += 100
+                group.position.y += 13
+            }
+            for (let group of [groupB, groupFastB]) {
+                group.rotation.x += Math.PI * 0.01
+                group.rotation.y -= Math.PI * 0.02
+                group.position.x = 50
+                group.position.y = -22
+                group.position.z = 100
+            }
+
+            const clock = new THREE.Clock()
+            function animate() {
+                const elapsed = clock.getDelta()
+                groupA.rotation.z += 0.25 * elapsed
+                groupB.rotation.z += 0.06 * elapsed
+                groupFastA.rotation.z += 1.2 * elapsed
+                groupFastB.rotation.z += 0.3 * elapsed
+                if (camera.position.y > 7) {
+                    var rate = (camera.position.y - 5) * 0.6
+                    camera.position.setY(Math.max(camera.position.y - rate * elapsed), 7)
+                }
+                renderer.render(scene, camera)
+            }
+            renderer.setAnimationLoop(animate)
+
+            function onWindowResize() {
+                camera.aspect = window.innerWidth / window.innerHeight
+                camera.updateProjectionMatrix()
+                renderer.setSize(window.innerWidth, window.innerHeight)
+                if (window.innerWidth < window.innerHeight)
+                    document.getElementById("filler").style.flex = '0.25'
+                else
+                    document.getElementById("filler").style.flex = '1'
+            }
+            window.addEventListener('resize', onWindowResize, false)
+            window.onmousemove = function(e) {
+                var moveDist = Math.sqrt(e.movementX * e.movementX + e.movementY * e.movementY)
+                groupA.rotation.z += 0.0001 * moveDist
+                groupB.rotation.z += 0.000025 * moveDist
+            }
+
+            onWindowResize()
+            animate()
+
+            async function navigate(href) {
+                document.getElementById("body").innerHTML += '<div id="grid" class="binary-grid"></div>'
+                const grid = document.getElementById("grid")
+                const randomGridChildren = []
+                const scalar = Math.max(Math.round(Math.min(window.innerWidth, window.innerHeight) / 360), 1)
+                const gridWidth = Math.floor(window.innerWidth * 1.1 / (11 * scalar))
+                const gridHeight = Math.floor(window.innerHeight * 1.1 / (14 * scalar))
+                for (let i = 0; i < gridHeight; i++) {
+                    for (let j = 0; j < gridWidth; j++) {
+                        const cell = document.createElement("div")
+                        cell.id = `cell${i}-${j}`
+                        cell.className = Math.random() < 0.5 ? "binary-cell binary-cell-1" : "binary-cell binary-cell-0"
+                        cell.style.width = (11 * scalar) + "px"
+                        cell.style.height = (14 * scalar) + "px"
+                        cell.style.gridRowStart = i + 1
+                        cell.style.gridColumnStart = j + 1
+                        grid.appendChild(cell)
+                        for (let k = 0; k < 3; k++)
+                            randomGridChildren.push(cell.id)
+                    }
+                }
+                await sleep(500)
+                window.location.href = href
+            }
+        </script>
+    </body>
+</html>

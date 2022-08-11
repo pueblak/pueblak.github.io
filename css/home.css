@@ -1,0 +1,129 @@
+html {
+    font-size: min(5vw, 5vh);
+    font-family: 'Courier New', Courier, monospace;
+    font-style: bold;
+}
+
+body {
+    margin: 0;
+    overflow: hidden;
+    width: 100vw;
+    height: 100vh;
+    background-color: #000022;
+}
+
+canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.title {
+    animation: fade-in 3s ease-out 4s 1 forwards;
+    animation-fill-mode: both;
+    font-size: 2.5rem;
+    text-align: center;
+    position: absolute;
+    z-index: 1;
+    width: 100vw;
+    top: 4vh;
+    height: 30vh;
+    padding: 2%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    margin-top: 0;
+}
+
+.nav-container {
+    text-align: center;
+    position: absolute;
+    z-index: 1;
+    width: 100vw;
+    height: 60vh;
+    bottom: 0;
+    display: flex;
+    flex-direction: row;
+}
+
+.navigation {
+    flex: 1;
+    height: 100%;
+    padding: 2%;
+    align-self: flex-end;
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+@keyframes float-left {
+    0% {
+        margin-left: 100vw;
+        margin-right: -100vw;
+    }
+    100% {
+        margin-left: 0;
+        margin-right: 0;
+    }
+}
+
+@keyframes fade-in {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.selection {
+    animation: float-left 3s ease-out;
+    animation-delay: calc(var(--anim-delay) * 1s);
+    animation-fill-mode: both;
+    position: relative;
+    color: #50d450;
+    z-index: 1;
+    padding: 0.6rem;
+    background-color: #101010;
+    width: fit-content;
+    opacity: 0.8;
+    border-radius: 0.25rem;
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.selection:hover {
+    opacity: 1;
+    background-color: #000000;
+    cursor: pointer;
+}
+
+.binary-grid {
+    position: absolute;
+    margin-top: -5vh;
+    margin-left: -5vw;
+    width: 110vw;
+    height: 110vh;
+    z-index: 2;
+    display: grid;
+    font-size: 2rem;
+    gap: 0.1em;
+}
+
+.binary-cell {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: transparent;
+}
+
+.binary-cell-0 {
+    background-image: url('../resources/binary0.png');
+}
+
+.binary-cell-1 {
+    background-image: url('../resources/binary1.png');
+}
