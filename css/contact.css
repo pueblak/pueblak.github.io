@@ -88,6 +88,7 @@ label.error-message {
 }
 
 input.submit {
+    animation: none;
     color: #000022;
     font-weight: bold;
     font-size: 0.8rem;
@@ -100,7 +101,19 @@ input.submit {
 }
 
 input.submit:hover {
-    background-color: #70a0d4;
+    animation: hover-submit 0.5s ease-out;
+    animation-fill-mode: both;
+    background-color: #70d4ff;
+    cursor: pointer;
+}
+
+@keyframes hover-submit {
+    0% {
+        background-color: #70d4ff;
+    }
+    100% {
+        background-color: #dddddd;
+    }
 }
 
 .input-valid {
