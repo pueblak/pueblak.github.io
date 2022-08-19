@@ -18,44 +18,49 @@ const COMMANDS_HELP = `
   alias NAME -------- change your username to {NAME}\n
   clear ------------- clear the screen of all content
 `
-const DIR = {'home': {
-    '__name__': 'home',
-    '__type__': "DIR",
-    '__href__': "index.html",
-    'contact': {
-        '__name__': 'contact',
-        '__type__': "SYM_LINK",
-        '__href__': "contact.html",
-        'email.txt': {
-            '__name__': 'email.txt',
-            '__type__': "TXT",
-            '__value__': "pueblakody@gmail.com"
+const DIR = {home: {
+    __name__: 'home',
+    __type__: "DIR",
+    __value__: "index.html",
+    contact: {
+        __name__: 'contact',
+        __type__: "SYM_LINK",
+        __value__: "contact.html",
+        email: {
+            __name__: 'email.txt',
+            __type__: "TXT",
+            __value__: "pueblakody@gmail.com"
         },
-        'phone.txt': {
-            '__name__': 'phone.txt',
-            '__type__': "TXT",
-            '__value__': "(309)737-5945"
+        phone: {
+            __name__: 'phone.txt',
+            __type__: "TXT",
+            __value__: "(309)737-5945"
         },
-        'linkedin.txt': {
-            '__name__': 'linkedin.txt',
-            '__type__': "TXT",
-            '__value__': "www.linkedin.com/in/kody-puebla"
+        linkedin: {
+            __name__: 'linkedin.txt',
+            __type__: "TXT",
+            __value__: "www.linkedin.com/in/kody-puebla"
+        },
+        github: {
+            __name__: 'github.txt',
+            __type__: "TXT",
+            __value__: "www.github.com/pueblak"
         }
     },
-    'projects': {
-        '__name__': 'projects',
-        '__type__': "SYM_LINK",
-        '__href__': "projects.html",
+    projects: {
+        __name__: 'projects',
+        __type__: "SYM_LINK",
+        __value__: "projects.html",
     },
-    'about': {
-        '__name__': 'about',
-        '__type__': "SYM_LINK",
-        '__href__': "about.html",
+    about: {
+        __name__: 'about',
+        __type__: "SYM_LINK",
+        __value__: "about.html",
     },
-    'troubleshoot': {
-        '__name__': 'troubleshoot',
-        '__type__': "EXE",
-        '__value__': troubleshoot_exe
+    troubleshoot: {
+        __name__: 'troubleshoot',
+        __type__: "EXE",
+        __value__: troubleshoot_exe
     }
 }}
 
@@ -273,10 +278,11 @@ async function navigate_to_page(href) {
     document.getElementById("directory").remove()
     document.getElementById("command").remove()
     document.getElementById("cursor").remove()
-    if (getCookie("visited") != "True") {
+    if (getCookie("visitedTerminal") != "True") {
         document.getElementById("output").innerHTML = 'Upgrading...'
         document.getElementById("output").classList.add("fade-color-animation")
         document.getElementById("body").classList.add("fade-color-animation")
+        setCookie("visitedTerminal", "True", 1)
         await sleep(3200)
     }
     window.location.href = href
@@ -311,7 +317,7 @@ async function process_command(command) {
                 error_message = 'Too many arguments. (expected 0)'
             else
                 navigate_to_page(
-                    find_path_node(parse_directory_path(directory))['__href__']
+                    find_path_node(parse_directory_path(directory))['__value__']
                 )
             break
         case "pwd":
