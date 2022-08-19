@@ -1,0 +1,112 @@
+html {
+    font-size: min(5vw, 5vh);
+}
+
+div.contact {
+    height: 100%;
+    width: 100%;
+    font-family: 'Figtree', sans-serif;
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+form.contact-form {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    height: fit-content;
+    width: fit-content;
+}
+
+fieldset.contact-fieldset {
+    display: flex;
+    flex-direction: column;
+    border: solid 0.0625rem #70d4ff40;
+    background-color: #44446640;
+    border-radius: 1rem;
+    justify-content: space-around;
+    align-items: flex-start;
+}
+
+fieldset.contact-fieldset legend {
+    font-size: 0.8rem;
+    color: #70d4ff;
+    font-weight: bold;
+    text-align: left;
+    padding: 0 0.2rem;
+    margin-left: -0.25rem;
+}
+
+fieldset.contact-fieldset div {
+    margin: 0.1em 0;
+    display: flex;
+    flex-direction: column;
+}
+
+fieldset.contact-fieldset div:first-of-type {
+    margin-top: 0.2em;
+}
+
+input {
+    font-size: 0.6rem;
+    width: 15em;
+    padding: 0.5em 0.5em;
+    color: #dddddd;
+    background-color: #44446640;
+    border: none;
+    border-radius: 0.25em;
+}
+
+form.contact-form textarea {
+    font-size: 0.6rem;
+    width: 20em;
+    height: 10em;
+    padding: 0.5em 0.5em;
+    resize: none;
+    color: #dddddd;
+    background-color: #44446640;
+    border-radius: 0.25em;
+}
+
+label.input-label {
+    display: block;
+    font-size: 0.6rem;
+    color: #dddddd;
+    width: 20em;
+    text-align: left;
+    padding: 0.1rem;
+}
+
+label.error-message {
+    font-style: italic;
+    font-size: 0.4rem;
+    color: #d45050;
+    text-align: left;
+    width: 100%;
+}
+
+input.submit {
+    color: #000022;
+    font-weight: bold;
+    font-size: 0.8rem;
+    background-color: #70d4ff;
+    margin-top: 1rem;
+    margin-bottom: 0.8rem;
+    align-self: center;
+    width: 6rem;
+    border-radius: 1rem;
+}
+
+input.submit:hover {
+    background-color: #70a0d4;
+}
+
+.input-valid {
+    border: none;
+}
+
+.input-error {
+    border: solid 0.0625rem #d45050;
+}
