@@ -42,7 +42,7 @@ function sendEmail() {
 
     if (valid) {
         Email.send({
-            SecureToken : "f3eef0ce-615a-45f6-9a4c-c57591e69600",
+            SecureToken : "c2e1c823-3c4f-4ca9-844c-cfbb736a9b91",
             To : "pueblakody@gmail.com",
             From : sender,
             Subject : "Message from " + name,
