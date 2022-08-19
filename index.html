@@ -44,14 +44,16 @@
             const binary1 = loader.load('../resources/binary1.png')
             
             const scene = new THREE.Scene()
-            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
             const renderer = new THREE.WebGLRenderer({
                 antialias: true,
                 canvas: document.querySelector('#canvas')
             })
 
+            const canvas = renderer.domElement
+            const camera = new THREE.PerspectiveCamera(75, canvas.clientWidth / canvas.clientHeight, 0.1, 1000)
+            
             renderer.setPixelRatio(window.devicePixelRatio)
-            renderer.setSize(window.innerWidth, window.innerHeight)
+            renderer.setSize(canvas.clientWidth, canvas.clientHeight, false)
             scene.background = new THREE.Color(0x000022)
 
             let cameraTarget = new THREE.Vector3(74, 7, 32)
@@ -195,10 +197,12 @@
             renderer.setAnimationLoop(animate)
 
             function onWindowResize() {
-                camera.aspect = window.innerWidth / window.innerHeight
+                const canvas = renderer.domElement
+                camera.aspect = canvas.clientWidth / canvas.clientHeight
                 camera.updateProjectionMatrix()
-                renderer.setSize(window.innerWidth, window.innerHeight)
-                if (window.innerWidth < window.innerHeight)
+                renderer.setPixelRatio(window.devicePixelRatio)
+                renderer.setSize(canvas.clientWidth, canvas.clientHeight, false)
+                if (canvas.clientWidth < canvas.clientHeight)
                     document.getElementById("filler").style.flex = '0.25'
                 else
                     document.getElementById("filler").style.flex = '1'
