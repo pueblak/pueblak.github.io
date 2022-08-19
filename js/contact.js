@@ -42,11 +42,11 @@ function sendEmail() {
 
     if (valid) {
         Email.send({
-            SecureToken : "c2e1c823-3c4f-4ca9-844c-cfbb736a9b91",
+            SecureToken : "2bce7b8e-6876-4af1-9598-a04380bede78",
             To : "pueblakody@gmail.com",
-            From : sender,
+            From : "pueblak.contact@gmail.com",
             Subject : "Message from " + name,
-            Body : messageValue
+            Body : messageValue + "\n- " + sender
         }).then(
             message => alert(message)
         )

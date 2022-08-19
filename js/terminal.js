@@ -75,7 +75,7 @@ var interacted = false
 var num_clicks = 0
 
 function get_working_directory_text() {
-    return username + '@pueblak.github.io:~' + directory + ' $'
+    return username + '@kody-puebla.com:~' + directory + ' $'
 }
 
 function parse_directory_path(path_string) {
