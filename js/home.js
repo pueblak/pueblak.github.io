@@ -1,160 +1,130 @@
-import * as THREE from '../node_modules/three/build/three.module.js';
+import * as THREE from './three.js'
 
-function load_home() {
-    console.log("starting")
-    var fontSize = Math.floor(Math.min(window.innerWidth, window.innerHeight) / 8.0)
-    document.getElementById("body").style.fontSize = fontSize.toString() + "px"
-    
-    const loader = new THREE.TextureLoader()
-    const binary0 = loader.load('../resources/binary0.png')
-    const binary1 = loader.load('../resources/binary1.png')
-    
-    const scene = new THREE.Scene()
-    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
-    const renderer = new THREE.WebGLRenderer({
-        antialias: true,
-        canvas: document.querySelector('#canvas')
-    })
-
-    renderer.setPixelRatio(window.devicePixelRatio)
-    renderer.setSize(window.innerWidth, window.innerHeight)
-    camera.position.setX(75)
-    camera.position.setZ(30)
-    scene.background = new THREE.Color(0x000022)
-
-    const ambientLight = new THREE.AmbientLight(0xd4ffd4, 1);
-    scene.add(ambientLight);
-
-    renderer.render(scene, camera)
-
-    const groupA = new THREE.Group()
-    const groupB = new THREE.Group()
-    const groupFastA = new THREE.Group()
-    const groupFastB = new THREE.Group()
-    scene.add(groupA, groupB, groupFastA, groupFastB)
-
-    const torusPointsA = []
-    const torusPointsB = []
-    for (let r = 1; r < 8; r++) {
-        var n_vertices = r < 6 ? 50 * (r + 1) : 80 * Math.abs(r - 8)
-        const geometryA = new THREE.TorusGeometry(40, r, 16, n_vertices)
-        const verticesA = geometryA.attributes.position.array
-        for (let i = 0; i < verticesA.length; i++)
-            torusPointsA.push(verticesA[i])
-        const geometryB = new THREE.TorusGeometry(160, r, 16, n_vertices * 8)
-        const verticesB = geometryB.attributes.position.array
-        for (let i = 0; i < verticesB.length; i++)
-            torusPointsB.push(verticesB[i])
-    }
-
-    function randomVertexSample(vertices, k) {
-        const indices = []
-        const sample = new Float32Array(k * 3)
-        while (indices.length < k) {
-            const index = Math.floor(Math.random() * vertices.length / 3) * 3
-            if (!indices.includes(index)) {
-                sample[indices.length * 3] = vertices[index]
-                sample[indices.length * 3 + 1] = vertices[index + 1]
-                sample[indices.length * 3 + 2] = vertices[index + 2]
-                indices.push(index)
-            }
-        }
-        return sample
-    }
-
-    for (let h = 0; h < 2; h++) {
-        const group = h == 0 ? groupA : groupB
-        const groupFast = h == 0 ? groupFastA : groupFastB
-        const torusPoints = h == 0 ? torusPointsA : torusPointsB
-        const binaryCount = h == 0 ? 512 : 1600
-        const sphereCount = h == 0 ? 32 : 100
-        const binarySample = randomVertexSample(torusPoints, binaryCount * 4 + sphereCount)
-        for (let i = 0; i < 5; i++) {
-            const binaryGeometry = new THREE.BufferGeometry
-
-            const binaryPosArray = new Float32Array(binaryCount * 3)
-
-            for (let j = 0; j < (i < 4 ? binaryCount : sphereCount); j++) {
-                const x = (binaryCount * i + j) * 3;
-                const y = x + 1
-                const z = x + 2
-                binaryPosArray[j * 3] = binarySample[x]
-                binaryPosArray[j * 3 + 1] = binarySample[y]
-                binaryPosArray[j * 3 + 2] = binarySample[z]
-            }
-
-            if (i < 4) {
-                binaryGeometry.setAttribute('position', new THREE.BufferAttribute(binaryPosArray, 3))
-                const binaryMaterial = new THREE.PointsMaterial({
-                    color: 0x70ff70,
-                    size: 0.4,
-                    map: i < 2 ? binary0 : binary1,
-                    transparent: true,
-                    opacity: i % 2 == 0 ? 0.8 : 0.4
-                })
-                const binaryMesh = new THREE.Points(binaryGeometry, binaryMaterial)
-                group.add(binaryMesh)
-            } else {
-                for (let j = 0; j < sphereCount; j++) {
-                    const geometry = new THREE.SphereGeometry(0.15, 10, 10)
-                    geometry.translate(
-                        binaryPosArray[j * 3],
-                        binaryPosArray[j * 3 + 1],
-                        binaryPosArray[j * 3 + 2]
-                    )
-                    const material = new THREE.MeshPhongMaterial({
-                        color: 0x70d4ff,
-                        specular: 0x040404,
-                        shininess: 100
-                    });
-                    const mesh = new THREE.Mesh(geometry, material)
-                    groupFast.add(mesh)
-                }
-            }
+function randomVertexSample(vertices, k) {
+    if (k * 3 >= vertices.length)
+        return vertices
+    const indices = []
+    const sample = new Float32Array(k * 3)
+    while (indices.length < k) {
+        const index = Math.floor(Math.random() * vertices.length / 3) * 3
+        if (!indices.includes(index)) {
+            sample[indices.length * 3] = vertices[index]
+            sample[indices.length * 3 + 1] = vertices[index + 1]
+            sample[indices.length * 3 + 2] = vertices[index + 2]
+            indices.push(index)
         }
     }
-
-    for (let group of [groupA, groupB, groupFastA, groupFastB]) {
-        group.rotation.x += 360
-        group.position.x += 100
-        group.position.y += 3
-    }
-    for (let group of [groupB, groupFastB]) {
-        group.position.x = 50
-        group.position.y = -30
-        group.position.z = 120
-        group.rotation.y -= 0.08
-    }
-
-    const clock = new THREE.Clock()
-    function animate() {
-        const elapsed = clock.getDelta()
-        groupA.rotation.z += 0.25 * elapsed
-        groupB.rotation.z += 0.05 * elapsed
-        groupFastA.rotation.z += 1.6 * elapsed
-        groupFastB.rotation.z += 0.4 * elapsed
-        renderer.render(scene, camera)
-    }
-    renderer.setAnimationLoop(animate)
-
-    function onWindowResize() {
-        var fontSize = Math.floor(Math.min(window.innerWidth, window.innerHeight) / 8.0)
-        document.getElementById("body").style.fontSize = fontSize.toString() + "px"
-        document.getElementById("title").style.width = '100vw'
-        document.getElementById("title").style.textAlign = 'center'
-        camera.aspect = window.innerWidth / window.innerHeight;
-        camera.updateProjectionMatrix();
-        renderer.setSize(window.innerWidth, window.innerHeight);
-    }
-    window.addEventListener('resize', onWindowResize, false)
-    window.onmousemove = function(e) {
-        var moveDist = Math.sqrt(e.movementX * e.movementX + e.movementY * e.movementY)
-        groupA.rotation.z += 0.0001 * moveDist
-        groupB.rotation.z += 0.000025 * moveDist
-    }
-
-    animate()
-    console.log("done")
+    return sample
 }
 
-export { load_home }
+class BinaryStreamTorus {
+    groupSlow = new THREE.Group()
+    groupFast = new THREE.Group()
+    group = new THREE.Group()
+
+    totalElapsed = 0
+    cameraLookTarget = cameraLookTargetA.clone()
+
+    constructor(radius, innerLayers=6, outerLayers=2, density=0.6,
+                position=new THREE.Vector3(0, 0, 0), rotation=new THREE.Euler(0, 0, 0)) {
+        const totalLayers = innerLayers + outerLayers
+        const slowBinaryCount = Math.round(radius * innerLayers * 2.0 * density)
+        const fastBinaryCount = Math.round(radius * 2.0 * density)
+
+        const torusPoints = []
+        var innerCount = 0
+        for (let r = 1; r < totalLayers; r++) {
+            var n_vertices = r < innerLayers ? 100 * density * (r + 1) : 150 * density * Math.abs(r - totalLayers)
+            const geometry = new THREE.TorusGeometry(radius, r, 16, n_vertices)
+            const vertices = geometry.attributes.position.array
+            for (let i = 0; i < vertices.length; i++)
+                torusPoints.push(vertices[i])
+            if (r < innerLayers)
+                innerCount += vertices.length
+        }
+
+        const slowBinarySample = randomVertexSample(torusPoints, slowBinaryCount * 4)
+        const fastBinarySample = randomVertexSample(torusPoints.slice(0, innerCount), fastBinaryCount * 2)
+        for (let i = 0; i < 6; i++) {
+            const binaryGeometry = new THREE.BufferGeometry
+            const binaryPosArray = new Float32Array((i < 4 ? slowBinaryCount : fastBinaryCount) * 3)
+
+            for (let j = 0; j < (i < 4 ? slowBinaryCount : fastBinaryCount); j++) {
+                const x = ((i < 4 ? slowBinaryCount * i : fastBinaryCount * (i - 4)) + j) * 3
+                const y = x + 1
+                const z = x + 2
+                var sample = i < 4 ? slowBinarySample : fastBinarySample
+                binaryPosArray[j * 3] = sample[x]
+                binaryPosArray[j * 3 + 1] = sample[y]
+                binaryPosArray[j * 3 + 2] = sample[z]
+            }
+
+            binaryGeometry.setAttribute('position', new THREE.BufferAttribute(binaryPosArray, 3))
+            const binaryMaterial = new THREE.PointsMaterial({
+                color: i < 4 ? 0x70ff70 : 0x70d4ff,
+                size: 0.5,
+                map: i % 2 == 0 ? binary1 : binary0,
+                transparent: true,
+                opacity: i < 2 ? 0.45 : 0.9,
+                depthWrite: false,
+                depthTest: false,
+                blending: THREE.AdditiveBlending
+            })
+
+            const binaryMesh = new THREE.Points(binaryGeometry, binaryMaterial)
+            if (i < 4)
+                group.add(binaryMesh)
+            else
+                groupFast.add(binaryMesh)
+        }
+
+        this.group.add(groupSlow, groupFast)
+        this.group.rotation = rotation.clone()
+        this.group.position = position.clone()
+    }
+
+    animationStepBinaryStream(elapsed, speed=0.3) {
+        groupFast.rotation.z += speed * elapsed
+        groupSlow.rotation.z += speed / 5.0 * elapsed
+    }
+
+    animationStepCameraMovement(elapsed, cameraTarget, completed=false) {
+        if (!completed && this.totalElapsed < 12) {
+            camera.position.lerp(cameraTarget, 0.01)
+            camera.lookAt(this.ameraLookTarget.lerp(cameraLookTargetB, 0.01))
+            this.totalElapsed += elapsed
+        } else if (completed) {
+            camera.position.set(cameraTarget.x, cameraTarget.y, cameraTarget.z)
+            camera.lookAt(cameraLookTargetB)
+        }
+    }
+}
+
+export default BinaryStreamTorus
+
+
+
+let fields = [
+    ('message', function(x){ return x != "" }, "Say something! I would love to hear from you!"),
+    ('email', function(x){ return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(x)}, "Are you sure you entered this correctly?"),
+    ('name', function(x){ return x != "" }, "How would you like me to address you?")
+]
+
+for (let field of fields) {
+    id, validate, errorMessage = field
+    if (validate(id)) {
+        if (document.getElementById(id).classList.contains("input-valid")) {
+            document.getElementById(id).classList.remove("input-valid")
+            document.getElementById(id).classList.add("input-error")
+        }
+        document.getElementById(id + '-error').innerHTML = errorMessage
+        document.getElementById(id).focus()
+        valid = false
+    } else {
+        if (document.getElementById(id).classList.contains("input-error")) {
+            document.getElementById(id).classList.remove("input-error")
+            document.getElementById(id).classList.add("input-valid")
+        }
+        document.getElementById(id + '-error').innerHTML = ""
+    }
+}

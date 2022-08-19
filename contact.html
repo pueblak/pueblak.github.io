@@ -5,9 +5,96 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" type="text/css" charset="utf-8" href="css/terminal.css">
         <link rel="stylesheet" type="text/css" charset="utf-8" href="css/about.css">
+        <link rel="stylesheet" type="text/css" charset="utf-8" href="css/contact.css">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Figtree">
         <script type="text/javascript" charset="utf-8" src="js/three.js"></script>
+        <script type="text/javascript" charset="utf-8" src="js/terminal.js"></script>
     </head>
     <body>
-        
+        <div id="contact" class="contact">
+            <form id="contact-form" class="contact-form" onsubmit="return sendEmail()">
+                <fieldset id="contact-fieldset" class="contact-fieldset">
+                    <legend>Contact Me</legend>
+                    <div>
+                        <label for="name" class="input-label">Name</label>
+                        <input id="name" name="name" class="input-valid" spellcheck="false"/>
+                        <label id="name-error" for="name" class="error-message"></label>
+                    </div>
+                    <div>
+                        <label for="email" class="input-label">Email</label>
+                        <input id="email" name="email" class="input-valid" spellcheck="false"/>
+                        <label id="email-error" for="email" class="error-message"></label>
+                    </div>
+                    <div>
+                        <label for="message" class="input-label">Message</label>
+                        <textarea id="message" name="message" class="input-valid"></textarea>
+                        <label id="message-error" for="message" class="error-message"></label>
+                    </div>
+                    <input id="submit" type="submit" value="Send" class="submit"/>
+                </fieldset>
+            </form>
+        </div>
+        <script src="https://smtpjs.com/v3/smtp.js"></script>
+        <script>
+            function sendEmail() {
+                const name = document.getElementById('name').value
+                const sender = document.getElementById('email').value
+                const messageValue = document.getElementById('message').value
+
+                // Validate all fields in the form
+                let valid = true
+                const fields = [  // (id, validation function, error message)
+                    {
+                        'id': 'message',
+                        'validateFn': function(x){ return x != "" },
+                        'errorMessage': "Say something! I would love to hear from you!"
+                    },
+                    {
+                        'id': 'email',
+                        'validateFn': function(x){ return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(x) },
+                        'errorMessage': "Are you sure you entered this correctly?"
+                    },
+                    {
+                        'id': 'name',
+                        'validateFn': function(x){ return x != "" },
+                        'errorMessage': "How would you like me to address you?"
+                    }
+                ]
+                for (let field of fields) {
+                    if (field.validateFn(document.getElementById(field.id).value)) {
+                        if (document.getElementById(field.id).classList.contains("input-error")) {
+                            document.getElementById(field.id).classList.remove("input-error")
+                            document.getElementById(field.id).classList.add("input-valid")
+                        }
+                        document.getElementById(field.id + '-error').innerHTML = ""
+                    } else {
+                        if (document.getElementById(field.id).classList.contains("input-valid")) {
+                            document.getElementById(field.id).classList.remove("input-valid")
+                            document.getElementById(field.id).classList.add("input-error")
+                        }
+                        document.getElementById(field.id + '-error').innerHTML = field.errorMessage
+                        document.getElementById(field.id).focus()
+                        valid = false
+                    }
+                }
+
+                if (valid) {
+                    Email.send({
+                        SecureToken : "f1c5440d-d876-43c2-8374-da58ed454151",
+                        To : "pueblakody@gmail.com",
+                        From : sender,
+                        Subject : "Message from " + name,
+                        Body : messageValue
+                    }).then(
+                        message => alert(message)
+                    )
+                } else {
+                    document.getElementById('contact-form').addEventListener('submit', function(e){
+                        e.preventDefault()
+                    })
+                }
+                return valid
+            }
+        </script>
     </body>
 </html>

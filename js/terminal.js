@@ -6,54 +6,38 @@ const html_input = `
            oninput="resize_input(this.value)"
            spellcheck="false"/>
     <text class="cursor" id="cursor">█</text>`
-
-const COMMANDS_LIST = ['help', 'upgrade', 'alias', 'pwd', 'ls', 'cd', 'echo', 'clear']
-const _COMMANDS_HELP = `
-  help -------------- display this list of commands\n
-  upgrade ----------- upgrade the terminal display to a more modern webpage\n
-  alias NAME -------- change your username to {NAME}\n
-  pwd --------------- print working directory\n
-  ls [DIRNAME] ------ list directory contents (current directory by default)\n
-  cd DIRNAME -------- change directory to {DIRNAME}\n
-  mkdir DIRNAME ----- create an empty directory called {DIRNAME}\n
-  rmdir DIRNAME ----- delete the given directory (must be empty)\n
-  touch FILENAME ---- create an empty file called {FILENAME}\n
-  rm PATHNAME ------- delete the file or directory at {PATHNAME}\n
-  cp SOURCE DEST ---- copy a file from {SOURCE} to {DEST}\n
-  mv SOURCE DEST ---- move a file from {SOURCE} to {DEST}\n
-  echo TEXT [...] --- print {TEXT} to the terminal\n
-  clear ------------- clear the screen of all content
-`
 const COMMANDS_HELP = `
   help -------------- display this list of commands\n
   upgrade ----------- upgrade the terminal display to a more modern webpage\n
-  alias NAME -------- change your username to {NAME}\n
   pwd --------------- print working directory\n
+  run [FILENAME] ---- run the given file (must be executable)\n
+  cat [FILENAME] ---- view the given file (must be text)\n
   ls [DIRNAME] ------ list directory contents (current directory by default)\n
   cd DIRNAME -------- change directory to {DIRNAME}\n
   echo TEXT [...] --- print {TEXT} to the terminal\n
+  alias NAME -------- change your username to {NAME}\n
   clear ------------- clear the screen of all content
 `
 const DIR = {'home': {
     '__name__': 'home',
     '__type__': "DIR",
-    '__href__': "Home.html",
+    '__href__': "index.html",
     'contact': {
         '__name__': 'contact',
         '__type__': "SYM_LINK",
-        '__href__': "ContactMe.html",
-        'email': {
-            '__name__': 'email',
+        '__href__': "contact.html",
+        'email.txt': {
+            '__name__': 'email.txt',
             '__type__': "TXT",
             '__value__': "pueblakody@gmail.com"
         },
-        'phone': {
-            '__name__': 'phone',
+        'phone.txt': {
+            '__name__': 'phone.txt',
             '__type__': "TXT",
             '__value__': "(309)737-5945"
         },
-        'linkedin': {
-            '__name__': 'linkedin',
+        'linkedin.txt': {
+            '__name__': 'linkedin.txt',
             '__type__': "TXT",
             '__value__': "www.linkedin.com/in/kody-puebla"
         }
@@ -61,12 +45,12 @@ const DIR = {'home': {
     'projects': {
         '__name__': 'projects',
         '__type__': "SYM_LINK",
-        '__href__': "Projects.html",
+        '__href__': "projects.html",
     },
     'about': {
         '__name__': 'about',
         '__type__': "SYM_LINK",
-        '__href__': "Resume.html",
+        '__href__': "about.html",
     },
     'troubleshoot': {
         '__name__': 'troubleshoot',
@@ -106,7 +90,7 @@ function parse_directory_path(path_string) {
     return path
 }
 
-function find_path_node(path_array) {
+function find_path_node(path_array, require_dir = false) {
     var path = []
     var node = DIR
     for (var index = 0; index < path_array.length; index++) {
@@ -115,6 +99,8 @@ function find_path_node(path_array) {
             node = node[node_name]
             if (!Object.keys(node).includes('__type__'))
                 throw "ERROR: '" + path.join('/') + '/' + "' does not have a valid type."
+            else if (!require_dir && index == path_array.length - 1)
+                return node
             else if (!(['DIR', 'SYM_LINK'].includes(node['__type__'])))
                 throw "ERROR: '" + path.join('/') + '/' + "' is not a valid directory."
             path.push(node_name)
@@ -127,7 +113,7 @@ function find_path_node(path_array) {
 function change_directory(path_string) {
     var path_array = parse_directory_path(directory + '/' + path_string)
     try {
-        find_path_node(path_array)
+        find_path_node(path_array, true)
         directory = '/' + path_array.join('/')
     } catch (e) {
         terminal_print_special(e.toString(), "error bold")
@@ -146,7 +132,7 @@ function print_directory(path_string) {
     var elements = []
     var names = []
     try {
-        var node = find_path_node(path_array)
+        var node = find_path_node(path_array, true)
         var keys = Object.keys(node)
         for (var index = 0; index < keys.length; index++) {
             var key = keys[index]
@@ -168,9 +154,14 @@ function print_directory(path_string) {
     }
 }
 
-function find_and_run_executable(path_string, args) {
+async function find_and_run_executable(path_string, args) {
     var path_array = parse_directory_path(directory + '/' + path_string)
-    var node = find_path_node(path_array.slice(0, path_array.length - 1))
+    var node = null
+    try {
+        node = find_path_node(path_array.slice(0, path_array.length - 1))
+    } catch (e) {
+        return e.toString().split('ERROR: ')[1]
+    }
     var exe = path_array[path_array.length - 1]
     if (!Object.keys(node).includes(exe))
         return "ERROR: '" + path_array.join('/') + "' cannot be found."
@@ -179,7 +170,23 @@ function find_and_run_executable(path_string, args) {
         return "ERROR: '" + path_array.join('/') + "' does not have a valid type."
     else if (node['__type__'] != 'EXE')
         return "ERROR: '" + path_array.join('/') + "' is not a valid executable."
-    node['__value__'](args)
+    await node['__value__'](args)
+    return ''
+}
+
+function view_text_file(path_string) {
+    var path_array = parse_directory_path(directory + '/' + path_string)
+    var node = null
+    try {
+        node = find_path_node(path_array)
+    } catch (e) {
+        return e.toString().split('ERROR: ')[1]
+    }
+    if (!Object.keys(node).includes('__type__'))
+        return path_array.join('/') + "' does not have a valid type."
+    else if (node['__type__'] != 'TXT')
+        return path_array.join('/') + "' is not a valid text file."
+    terminal_print(node['__value__'])
     return ''
 }
 
@@ -266,10 +273,12 @@ async function navigate_to_page(href) {
     document.getElementById("directory").remove()
     document.getElementById("command").remove()
     document.getElementById("cursor").remove()
-    document.getElementById("output").innerHTML = 'Upgrading...'
-    document.getElementById("output").classList.add("fade-color-animation")
-    document.getElementById("body").classList.add("fade-color-animation")
-    await sleep(3200)
+    if (getCookie("visited") != "True") {
+        document.getElementById("output").innerHTML = 'Upgrading...'
+        document.getElementById("output").classList.add("fade-color-animation")
+        document.getElementById("body").classList.add("fade-color-animation")
+        await sleep(3200)
+    }
     window.location.href = href
 }
 
@@ -277,7 +286,7 @@ async function begin_labyrinth_quest() {
     await terminal_print("\n...Theseus?\n", 4000)
     await terminal_print("Theseus, my boy, is that you?\n", 5000)
     await terminal_print("Please, my son... Do not venture into the labyrinth. "
-                   + "I fear what may come of you if you do.", 6000)
+                         + "I fear what may come of you if you do.", 6000)
     await terminal_print_special('A new directory has been added to "/home"',
                                  "alert bold", 8000)
 }
@@ -334,6 +343,18 @@ async function process_command(command) {
             else
                 terminal_print(args.slice(1, args.length).join(' '))
             break
+        case "run":
+            if (args.length < 2)
+                error_message = 'Incorrect number of arguments. (expected at least 1)'
+            else
+                error_message = await find_and_run_executable(args[1], args.slice(2))
+            break
+        case "cat":
+            if (args.length != 2)
+                error_message = 'Incorrect number of arguments. (expected 1)'
+            else
+                error_message = view_text_file(args[1])
+            break
         case "ls":
             if (args.length > 2)
                 error_message = 'Too many arguments. (expected at most 1)'
@@ -348,7 +369,7 @@ async function process_command(command) {
             break
         default:
             if (args[0].startsWith('.') || args[0].includes('/'))
-                error_message = find_and_run_executable(args[0], args.slice(1))
+                error_message = await find_and_run_executable(args[0], args.slice(1))
             else
                 error_message = "'" + args[0] + "' command not found"
     }
@@ -365,7 +386,7 @@ async function process_command(command) {
 
 function set_terminal_font_size() {
     var fontSize = Math.floor(Math.min(window.innerWidth, window.innerHeight) / 30.0)
-    document.getElementById("terminal").style.fontSize = fontSize.toString() + "px"
+    document.getElementById("body").style.fontSize = fontSize.toString() + "px"
 }
 
 function load_terminal() {
