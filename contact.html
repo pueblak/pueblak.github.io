@@ -8,10 +8,12 @@
         <link rel="stylesheet" type="text/css" charset="utf-8" href="css/contact.css">
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Figtree">
         <script type="text/javascript" charset="utf-8" src="js/three.js"></script>
+        <script type="text/javascript" charset="utf-8" src="js/cookies.js"></script>
+        <script type="text/javascript" charset="utf-8" src="js/terminal.js"></script>
         <script type="text/javascript" charset="utf-8" src="js/contact.js"></script>
         <script type="text/javascript" charset="utf-8" src="https://smtpjs.com/v3/smtp.js"></script>
     </head>
-    <body>
+    <body onload="redirect_pueblak_github_io()">
         <div id="contact" class="contact">
             <form id="contact-form" class="contact-form">
                 <fieldset id="contact-fieldset" class="contact-fieldset">
@@ -31,9 +33,12 @@
                         <textarea id="message" name="message" class="input-valid"></textarea>
                         <label id="message-error" for="message" class="error-message"></label>
                     </div>
-                    <input id="submit" type="button" value="Send" class="submit" onclick="sendEmail()"/>
+                    <input id="submit" type="button" value="Send" class="submit" onclick="sendMessage()"/>
                 </fieldset>
             </form>
+        </div>
+        <div id="social" class="">
+
         </div>
     </body>
 </html>

@@ -74,6 +74,11 @@ var excess_lines = 0
 var interacted = false
 var num_clicks = 0
 
+function redirect_pueblak_github_io() {
+    if (window.location.href.contains("pueblak.github.io"))
+        window.location.href.replace("pueblak.github.io", "kody-puebla.com")
+}
+
 function get_working_directory_text() {
     return username + '@kody-puebla.com:~' + directory + ' $'
 }
@@ -396,6 +401,7 @@ function set_terminal_font_size() {
 }
 
 function load_terminal() {
+    redirect_pueblak_github_io()
     set_terminal_font_size()
     var directory_elem = document.getElementById("directory")
     directory_elem.innerHTML = get_working_directory_text()
