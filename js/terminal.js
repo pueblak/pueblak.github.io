@@ -75,7 +75,7 @@ var interacted = false
 var num_clicks = 0
 
 function redirect_pueblak_github_io() {
-    if (window.location.href.contains("pueblak.github.io"))
+    if (window.location.href.includes("pueblak.github.io"))
         window.location.href.replace("pueblak.github.io", "kody-puebla.com")
 }
 
