@@ -57,9 +57,9 @@
             renderer.setSize(canvas.clientWidth, canvas.clientHeight, false)
             scene.background = new THREE.Color(0x000022)
 
-            let cameraTarget = new THREE.Vector3(78, 7, 32)
+            let cameraTarget = new THREE.Vector3(78, 8, 32)
             let cameraLookTargetA = new THREE.Vector3(120, 200, -100)
-            let cameraLookTargetB = new THREE.Vector3(74, 5, -160)
+            let cameraLookTargetB = new THREE.Vector3(74, 16, -160)
             if (cVisited == "True") {
                 camera.position.set(cameraTarget.x, cameraTarget.y, cameraTarget.z)
                 camera.lookAt(cameraLookTargetB)
@@ -208,16 +208,19 @@
                 camera.updateProjectionMatrix()
                 renderer.setPixelRatio(window.devicePixelRatio)
                 renderer.setSize(canvas.clientWidth, canvas.clientHeight, false)
-                if (canvas.clientWidth < canvas.clientHeight) {
+                if (canvas.clientWidth < canvas.clientHeight) {  // portrait
+                    document.getElementById('title').style.fontSize = '1.6em'
                     document.getElementById("filler").style.flex = '0'
                     document.getElementById("nav-container").style.height = '40vh'
                     document.getElementById("nav-container").style.bottom = '8vh'
                     for (child of document.getElementById('navigation').children) {
                         child.style.alignSelf = 'center'
                     }
-                } else {
+                } else {  // landscape
+                    document.getElementById('title').style.fontSize = '2.5em'
                     document.getElementById("filler").style.flex = '1'
                     document.getElementById("nav-container").style.height = '60vh'
+                    document.getElementById("nav-container").style.bottom = '0'
                     document.getElementById('navigation').children[0].style.alignSelf = 'flex-start'
                     document.getElementById('navigation').children[1].style.alignSelf = 'center'
                     document.getElementById('navigation').children[2].style.alignSelf = 'flex-end'
