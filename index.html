@@ -11,20 +11,20 @@
         <script type="text/javascript" charset="utf-8" src="js/cookies.js"></script>
         <script type="text/javascript" charset="utf-8" src="js/terminal.js"></script>
     </head>
-    <body id="body" onload="redirect_pueblak_github_io()">
-        <div class="page">
+    <body id="body" onload="load_body()">
+        <div id="page" class="page">
             <div id="title" class="title">
                 <div>
                     <text style="color:#70d4ff">Kody</text><text style="margin-left:0.6em;color:#70d4ff">Puebla</text><br>
                 </div>
                 <div><text style="font-size: 0.75rem;color: #f5f360">[UNDER CONSTRUCTION]</text></div>
             </div>
-            <div class="nav-container">
+            <div id="nav-container" class="nav-container">
                 <div id="filler"></div>
                 <div id="navigation" class="navigation">
-                    <text class="selection" style="align-self: flex-start;--anim-delay: 4" onclick="navigate('about.html')"><text class="hover-zoom" style="color: #f5f360;font-size: 1.2em">LEARN</text> about me</text>
-                    <text class="selection" style="align-self: center;--anim-delay: 5" onclick="navigate('projects.html')"><text class="hover-zoom" style="color: #70d4ff;font-size: 1.2em">EXPLORE</text> my work</text>
-                    <text class="selection" style="align-self: flex-end;--anim-delay: 6" onclick="navigate('contact.html')"><text class="hover-zoom" style="color: #db6673;font-size: 1.2em">CONNECT</text> with me</text>
+                    <text class="selection" style="align-self: flex-start;--anim-delay: 1" onclick="navigate('about.html')"><text class="hover-zoom" style="color: #f5f360;font-size: 1.2em">LEARN</text> about me</text>
+                    <text class="selection" style="align-self: center;--anim-delay: 1.25" onclick="navigate('projects.html')"><text class="hover-zoom" style="color: #70d4ff;font-size: 1.2em">EXPLORE</text> my work</text>
+                    <text class="selection" style="align-self: flex-end;--anim-delay: 1.5" onclick="navigate('contact.html')"><text class="hover-zoom" style="color: #db6673;font-size: 1.2em">CONNECT</text> with me</text>
                 </div>
             </div>
         </div>
@@ -57,7 +57,7 @@
             renderer.setSize(canvas.clientWidth, canvas.clientHeight, false)
             scene.background = new THREE.Color(0x000022)
 
-            let cameraTarget = new THREE.Vector3(74, 7, 32)
+            let cameraTarget = new THREE.Vector3(78, 7, 32)
             let cameraLookTargetA = new THREE.Vector3(120, 200, -100)
             let cameraLookTargetB = new THREE.Vector3(74, 5, -160)
             if (cVisited == "True") {
@@ -174,6 +174,11 @@
                 group.position.z = 100
             }
 
+            let allowCameraMove = getCookie("visited") != "True"
+            let shouldSnapCamera = true
+            
+            setCookie("visited", "True", 1)
+
             const clock = new THREE.Clock()
             let totalElapsed = 0
             let cameraLookTarget = cameraLookTargetA.clone()
@@ -183,15 +188,15 @@
                 groupB.rotation.z += 0.06 * elapsed
                 groupFastA.rotation.z += 1.2 * elapsed
                 groupFastB.rotation.z += 0.3 * elapsed
-                if (cVisited != "True" && totalElapsed < 12) {
-                    camera.position.lerp(cameraTarget, 0.01)
-                    camera.lookAt(cameraLookTarget.lerp(cameraLookTargetB, 0.01))
+                if (allowCameraMove) {
+                    camera.position.lerp(cameraTarget, 0.025)
+                    camera.lookAt(cameraLookTarget.lerp(cameraLookTargetB, 0.02))
                     totalElapsed += elapsed
-                } else if (cVisited == "False") {
+                    if (totalElapsed > 5)
+                        allowCameraMove = false
+                } else if (shouldSnapCamera) {
                     camera.position.set(cameraTarget.x, cameraTarget.y, cameraTarget.z)
                     camera.lookAt(cameraLookTargetB)
-                    setCookie("visited", "True", 1)
-                    cVisited = "True"
                 }
                 renderer.render(scene, camera)
             }
@@ -203,10 +208,20 @@
                 camera.updateProjectionMatrix()
                 renderer.setPixelRatio(window.devicePixelRatio)
                 renderer.setSize(canvas.clientWidth, canvas.clientHeight, false)
-                if (canvas.clientWidth < canvas.clientHeight)
-                    document.getElementById("filler").style.flex = '0.25'
-                else
+                if (canvas.clientWidth < canvas.clientHeight) {
+                    document.getElementById("filler").style.flex = '0'
+                    document.getElementById("nav-container").style.height = '40vh'
+                    document.getElementById("nav-container").style.bottom = '8vh'
+                    for (child of document.getElementById('navigation').children) {
+                        child.style.alignSelf = 'center'
+                    }
+                } else {
                     document.getElementById("filler").style.flex = '1'
+                    document.getElementById("nav-container").style.height = '60vh'
+                    document.getElementById('navigation').children[0].style.alignSelf = 'flex-start'
+                    document.getElementById('navigation').children[1].style.alignSelf = 'center'
+                    document.getElementById('navigation').children[2].style.alignSelf = 'flex-end'
+                }
             }
             window.addEventListener('resize', onWindowResize, false)
             window.onmousemove = function(e) {
@@ -219,7 +234,13 @@
             animate()
 
             async function navigate(href) {
-                await sleep(500)
+                cameraTarget = new THREE.Vector3(50, -50, 50)
+                cameraLookTarget = cameraLookTargetB.clone()
+                cameraLookTargetB = new THREE.Vector3(28, -400, -220)
+                totalElapsed = 0
+                allowCameraMove = true
+                document.getElementById("page").remove()
+                await sleep(1500)
                 window.location.href = href
             }
         </script>

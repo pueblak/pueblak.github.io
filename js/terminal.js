@@ -74,9 +74,15 @@ var excess_lines = 0
 var interacted = false
 var num_clicks = 0
 
-function redirect_pueblak_github_io() {
+function load_body() {
     if (window.location.href.includes("pueblak.github.io"))
-        window.location.href.replace("pueblak.github.io", "kody-puebla.com")
+        window.location.href = window.location.href.replace("pueblak.github.io", "kody-puebla.com")
+    document.addEventListener("keydown", function(e) {
+        if (e.code == "Escape") {
+            directory = window.location.href.replace("https://kody-puebla.com", "/home")
+            window.location.href = "https://kody-puebla.com/terminal"
+        }
+    })
 }
 
 function get_working_directory_text() {
@@ -401,7 +407,7 @@ function set_terminal_font_size() {
 }
 
 function load_terminal() {
-    redirect_pueblak_github_io()
+    load_body()
     set_terminal_font_size()
     var directory_elem = document.getElementById("directory")
     directory_elem.innerHTML = get_working_directory_text()

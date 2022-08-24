@@ -2,8 +2,13 @@ html {
     font-size: min(5vw, 5vh);
 }
 
+body {
+    margin: 0;
+    width: 100%;
+}
+
 div.contact {
-    height: 100%;
+    height: fit-content;
     width: 100%;
     font-family: 'Figtree', sans-serif;
     text-align: center;
@@ -18,6 +23,7 @@ form.contact-form {
     align-items: flex-start;
     height: fit-content;
     width: fit-content;
+    margin: 0;
 }
 
 fieldset.contact-fieldset {
@@ -28,6 +34,7 @@ fieldset.contact-fieldset {
     border-radius: 1rem;
     justify-content: space-around;
     align-items: flex-start;
+    margin: 1rem 1rem 2rem;
 }
 
 fieldset.contact-fieldset legend {
@@ -40,13 +47,19 @@ fieldset.contact-fieldset legend {
 }
 
 fieldset.contact-fieldset div {
-    margin: 0.1em 0;
+    margin: 0.25em 0;
     display: flex;
     flex-direction: column;
 }
 
 fieldset.contact-fieldset div:first-of-type {
     margin-top: 0.2em;
+}
+
+fieldset.contact-fieldset div:last-of-type {
+    margin-top: 1.2rem;
+    margin-bottom: 0.4rem;
+    align-self: center;
 }
 
 input {
@@ -60,6 +73,7 @@ input {
 }
 
 form.contact-form textarea {
+    font-family: "Figtree", sans-serif;
     font-size: 0.6rem;
     width: 20em;
     height: 10em;
@@ -88,31 +102,68 @@ label.error-message {
 }
 
 input.submit {
-    animation: none;
-    color: #000022;
+    color: #111133;
     font-weight: bold;
     font-size: 0.8rem;
     background-color: #70d4ff;
-    margin-top: 1rem;
-    margin-bottom: 0.8rem;
-    align-self: center;
     width: 6rem;
     border-radius: 1rem;
+    padding-left: 1.5rem;
+    padding-right: 0;
 }
 
-input.submit:hover {
-    animation: hover-submit 0.5s ease-out;
-    animation-fill-mode: both;
-    background-color: #70d4ff;
+img.send:hover, input.submit:hover {
     cursor: pointer;
 }
 
-@keyframes hover-submit {
+img.send {
+    position: absolute;
+    width: 1.125rem;
+    height: 1.125rem;
+    margin-left: 1rem;
+    margin-top: 0.3rem;
+    /* filter generated from https://codepen.io/sosuke/pen/Pjoqqp with target color #111133 */
+    filter: invert(10%) sepia(61%) saturate(622%) hue-rotate(199deg) brightness(89%) contrast(106%);
+    background-color: #00000000;
+}
+
+.float-left-animation {
+    animation: float-fade-left 1.5s ease-in-out forwards;
+}
+
+.float-right-animation {
+    animation: float-right 1.5s ease-in-out forwards;
+}
+
+@keyframes float-fade-left {
     0% {
-        background-color: #70d4ff;
+        padding-left: 1.5rem;
+        padding-right: 0;
+        color: #111133;
+    }
+    25% {
+        padding-left: 1rem;
+        padding-right: 0;
+        color: #11113300;
+    }
+    75% {
+        padding-left: 0;
+        padding-right: 1rem;
+        color: #11113300;
     }
     100% {
-        background-color: #dddddd;
+        padding-left: 0;
+        padding-right: 1.5rem;
+        color: #111133;
+    }
+}
+
+@keyframes float-right {
+    from {
+        margin-left: 1rem;
+    }
+    to {
+        margin-left: 4rem;
     }
 }
 
@@ -122,4 +173,77 @@ input.submit:hover {
 
 .input-error {
     border: solid 0.0625rem #d45050;
+}
+
+.message {
+    font-family: 'Figtree', sans-serif;
+    font-size: 0.6rem;
+    color: #dddddd;
+    text-align: left;
+    white-space: pre-wrap;
+    inline-size: 10rem;
+    overflow-wrap: break-word;
+}
+
+.socials {
+    display: flex;
+    flex-direction: grid;
+    flex-wrap: wrap;
+    width: 14rem;
+    border: solid 0.0625rem #70d4ff40;
+    background-color: #44446640;
+    border-radius: 1rem;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin: 1rem 1rem 2rem;
+    align-self: center;
+}
+
+.socials img {
+    width: 1.5rem;
+    height: 1.5rem;
+    /* filter generated from https://codepen.io/sosuke/pen/Pjoqqp with target color #70d4ff */
+    filter: invert(70%) sepia(39%) saturate(761%) hue-rotate(171deg) brightness(104%) contrast(101%);
+    background-color: #00000000;
+}
+
+.socials div:hover {
+    cursor: pointer;
+}
+
+.socials div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0.2rem 0.8rem;
+    width: fit-content;
+}
+
+.socials text {
+    font-family: 'Figtree', sans-serif;
+    font-size: 0.75rem;
+    font-weight: bold;
+    padding: 0.25em;
+    width: fit-content;
+    color: #70d4ff;
+}
+
+.info-text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+text.info {
+    display: block;
+    font-family: 'Figtree', sans-serif;
+    font-size: 0.6rem;
+    color: #dddddd;
+    white-space: pre-wrap;
+    width: fit-content;
+    width: 16rem;
+    overflow-wrap: break-word;
+    padding: 0.2rem;
+    margin: 0;
 }
