@@ -1,6 +1,6 @@
 html {
     background-color: #000022;
-    font-size: min(5vw, 5vh);
+    font-size: min(8vw, 5vh);
     font-family: 'Courier New', Courier, monospace;
     font-style: bold;
     margin: 0;
@@ -35,9 +35,9 @@ canvas {
 
 .title {
     flex: 2;
-    animation: fade-in 3s ease-out 4s 1 forwards;
+    animation: fade-in 2s ease-out 1s 1 forwards;
     animation-fill-mode: both;
-    font-size: 2.5rem;
+    font-size: 1.6rem;
     text-align: center;
     position: absolute;
     z-index: 1;
@@ -95,23 +95,21 @@ canvas {
 }
 
 .selection {
-    animation: float-left 3s ease-out;
+    animation: float-left 1.5s ease-out;
     animation-delay: calc(var(--anim-delay) * 1s);
     animation-fill-mode: both;
     position: relative;
     color: #50d450;
     z-index: 1;
     padding: 0.6rem;
-    background-color: #101010;
-    width: fit-content;
-    opacity: 0.8;
+    background-color: #101e33;
+    width: 10rem;
     border-radius: 0.25rem;
     margin-left: 0;
     margin-right: 0;
 }
 
 .selection:hover {
-    opacity: 1;
     background-color: #000000;
     cursor: pointer;
 }

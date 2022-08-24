@@ -1,8 +1,39 @@
+function loadContact() {
+    if (getCookie("messageSent") != "") {
+        displaySentMessage(getCookie("messageSent").split("$"))
+    }
+}
+
+function displaySentMessage(messageElements) {
+    document.getElementById('name-div').remove()
+    document.getElementById('email-div').remove()
+    document.getElementById('message-div').remove()
+    document.getElementById('legend').innerHTML = "Thanks for reaching out!"
+    document.getElementById('legend').style.textAlign = "center"
+    document.getElementById('submit-button').outerHTML = (
+        '<div id="output"><pre id="sent-message" class="message"></pre></div>'
+    ) + document.getElementById('submit-button').outerHTML
+    document.getElementById('submit-button').onmouseenter = null
+    document.getElementById('submit-button').onmouseleave = null
+    document.getElementById('sent-message').innerHTML = (
+        'From:  <b>' + messageElements[0] + '</b> (' + messageElements[1] + ')\n' +
+        'To:  <b>Kody Puebla</b> (pueblakody@gmail.com)\n' +
+        '\nBody:\n    <i>' + messageElements.slice(2).join("$") + '</i>'
+    )
+    document.getElementById('send').src = 'resources/checkmark.svg'
+    document.getElementById('send').style.marginLeft = '3.5rem'
+    document.getElementById('submit').value = 'Sent'
+    document.getElementById('submit').style.backgroundColor = "#70ff70a4"
+    document.getElementById('submit').style.fontWeight = "normal"
+    document.getElementById('submit').style.paddingLeft = "0"
+    document.getElementById('submit').style.paddingRight = "1rem"
+}
+
 function sendMessage() {
     if (getCookie("messageSent") != "") {
         alert("You have already sent a message within the last 30 minutes. "
               + "Please wait to send another.")
-        return false;
+        return false
     }
 
     const name = document.getElementById('name').value
@@ -63,7 +94,7 @@ function sendMessage() {
             success => { if (success) setCookie("messageSent", [name, sender, messageValue].join("$"), 1.0/48); return success}
         ).then(
             success => { if (success) Email.send({
-                SecureToken : "5f0d9ca1-4e7f-48e2-927a-f5dbf9d05a94",
+                SecureToken : "12422c68-7d67-44ef-9d3e-8ec8d0747602",
                 To : sender,
                 From : "noreply@kody-puebla.com",
                 Subject : "Copy of Message from " + name,
@@ -83,6 +114,7 @@ function sendMessage() {
                               + "to your email:\n\n" + message)
                     } else {
                         alert("Message sent successfully. A copy has been sent to your email.")
+                        displaySentMessage([name, sender, messageValue])
                     }
                 }
             )}
@@ -96,4 +128,14 @@ function sendMessage() {
         })
     }
     return valid
+}
+
+function animate_send() {
+    document.getElementById('send').classList.add('float-right-animation')
+    document.getElementById('submit').classList.add('float-left-animation')
+}
+
+function unanimate_send() {
+    document.getElementById('send').classList.remove('float-right-animation')
+    document.getElementById('submit').classList.remove('float-left-animation')
 }
