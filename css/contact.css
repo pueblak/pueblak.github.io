@@ -4,7 +4,22 @@ html {
 
 body {
     margin: 0;
+}
+
+.page {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
     overflow-x: hidden;
+    overflow-y: auto;
+    flex-direction: column;
+}
+
+::-webkit-scrollbar {
+    width: 0;
 }
 
 .info-text {
@@ -54,7 +69,7 @@ fieldset.contact-fieldset {
     display: flex;
     flex-direction: column;
     border: solid 0.0625rem #70d4ff40;
-    background-color: #44446640;
+    background-color: #111133;
     border-radius: 1rem;
     justify-content: space-around;
     align-items: flex-start;
@@ -216,7 +231,7 @@ img.send {
     flex-wrap: wrap;
     width: 13rem;
     border: solid 0.0625rem #70d4ff40;
-    background-color: #44446640;
+    background-color: #111133;
     border-radius: 1rem;
     justify-content: flex-start;
     align-items: flex-start;
@@ -260,10 +275,26 @@ text.info {
     font-family: 'Figtree', sans-serif;
     font-size: 0.6rem;
     color: #dddddd;
+    background-image: linear-gradient(rgba(0, 0, 34, 0.25), rgba(0, 0, 34, 1), rgba(0, 0, 34, 1), rgba(0, 0, 34, 0.25));
     white-space: pre-wrap;
     width: fit-content;
     width: 16rem;
     overflow-wrap: break-word;
-    padding: 0.2rem;
+    padding: 0.5rem;
     margin: 0;
+}
+
+.animate-fade-in {
+    animation: fade-in 1.5s ease-in-out;
+    animation-fill-mode: both;
+    opacity: 0;
+}
+
+@keyframes fade-in {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
 }
