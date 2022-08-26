@@ -4,83 +4,88 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" type="text/css" charset="utf-8" href="css/terminal.css">
-        <link rel="stylesheet" type="text/css" charset="utf-8" href="css/about.css">
+        <link rel="stylesheet" type="text/css" charset="utf-8" href="css/matrix.css">
         <link rel="stylesheet" type="text/css" charset="utf-8" href="css/contact.css">
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Figtree">
         <script type="text/javascript" charset="utf-8" src="js/three.js"></script>
         <script type="text/javascript" charset="utf-8" src="js/cookies.js"></script>
+        <script type="text/javascript" charset="utf-8" src="js/random.js"></script>
         <script type="text/javascript" charset="utf-8" src="js/terminal.js"></script>
+        <script type="text/javascript" charset="utf-8" src="js/matrix.js"></script>
         <script type="text/javascript" charset="utf-8" src="js/contact.js"></script>
         <script type="text/javascript" charset="utf-8" src="https://smtpjs.com/v3/smtp.js"></script>
     </head>
-    <body onload="load_body(); loadContact()">
-        <div style="display: table;width: 100%;height: calc(100% - 2rem)">
-            <div style="display: table-row;height: fit-content">
-                <div id="top-text" class="info-text">
-                    <div class="title">
-                        <text style="color:#db6673;width: fit-content">CONNECT</text><text style="margin-left:4%;color:#70d4ff;width: fit-content">with me</text><br>
+    <body onload="load_body(); loadCanvas(); loadContact()">
+        <div class="page">
+            <div style="display: table;width: 100%;height: calc(100% - 2rem)">
+                <div style="display: table-row;height: fit-content">
+                    <div id="top-text" class="info-text animate-fade-in">
+                        <div class="title">
+                            <text style="color:#db6673;width: fit-content">CONNECT</text><text style="margin-left:4%;color:#70d470;width: fit-content">with me</text><br>
+                        </div>
+                        <div style="margin-top: 5%;">
+                            <text class="info">There are multiple ways you can connect with me, all linked below. If you have no preference, my email is what I check most often, so that would be my recommendation.</text>
+                        </div>
                     </div>
-                    <div style="margin-top: 5%;">
-                        <text class="info">There are multiple ways you can connect with me, all linked below. If you have no preference, my email is what I check most often, so that would be my recommendation.</text>
+                    <div style="display: flex;flex-direction: column">
+                        <div id="socials" class="socials animate-fade-in">
+                            <div id="github" onclick="window.open('https://github.com/pueblak')">
+                                <img src="resources/github.svg">
+                                <text>pueblak</text>
+                            </div>
+                            <div id="linkedin" onclick="window.open('https://www.linkedin.com/in/kody-puebla/')">
+                                <img src="resources/linkedin.svg">
+                                <text>kodypuebla</text>
+                            </div>
+                            <div id="email" onclick="window.open('mailto:pueblakody@gmail.com')">
+                                <img src="resources/email.svg">
+                                <text>pueblakody@gmail.com</text>
+                            </div>
+                            <div id="phone" onclick="window.open('tel:+1-309-737-5945')">
+                                <img src="resources/phone.svg">
+                                <text>+1 (309) 737-5945</text>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="info-text animate-fade-in">
+                        <div>
+                            <text class="info">Feel free to use the contact form below to send me a message. Just let me know your name and email (so I can reply back), then I'm all ears!</text>
+                        </div>
+                    </div>
+                    <div id="contact" class="contact animate-fade-in">
+                        <form id="contact-form" class="contact-form">
+                            <fieldset id="contact-fieldset" class="contact-fieldset">
+                                <legend id="legend">Contact Me</legend>
+                                <div id="name-div">
+                                    <label for="name" class="input-label">Name</label>
+                                    <input id="name" name="name" class="input-valid" spellcheck="false"/>
+                                    <label id="name-error" for="name" class="error-message"></label>
+                                </div>
+                                <div id="email-div">
+                                    <label for="email" class="input-label">Email</label>
+                                    <input id="email" name="email" class="input-valid" spellcheck="false"/>
+                                    <label id="email-error" for="email" class="error-message"></label>
+                                </div>
+                                <div id="message-div">
+                                    <label for="message" class="input-label">Message</label>
+                                    <textarea id="message" name="message" class="input-valid"></textarea>
+                                    <label id="message-error" for="message" class="error-message"></label>
+                                </div>
+                                <div id="submit-button" class="submit-button" onmouseenter="animate_send()" onmouseleave="unanimate_send()">
+                                    <img id="send" class="send" src="resources/send.svg"/>
+                                    <input id="submit" type="button" value="Send" class="submit" onclick="sendMessage()"/>
+                                </div>
+                            </fieldset>
+                        </form>
                     </div>
                 </div>
-                <div style="display: flex;flex-direction: column">
-                    <div id="socials" class="socials">
-                        <div id="github" onclick="window.open('https://github.com/pueblak')">
-                            <img src="resources/github.svg">
-                            <text>pueblak</text>
-                        </div>
-                        <div id="linkedin" onclick="window.open('https://www.linkedin.com/in/kody-puebla/')">
-                            <img src="resources/linkedin.svg">
-                            <text>kodypuebla</text>
-                        </div>
-                        <div id="email" onclick="window.open('mailto:pueblakody@gmail.com')">
-                            <img src="resources/email.svg">
-                            <text>pueblakody@gmail.com</text>
-                        </div>
-                        <div id="phone" onclick="window.open('tel:+1-309-737-5945')">
-                            <img src="resources/phone.svg">
-                            <text>+1 (309) 737-5945</text>
-                        </div>
-                    </div>
-                </div>
-                <div class="info-text">
-                    <div>
-                        <text class="info">Feel free to use the contact form below to send me a message. Just let me know your name and email (so I can reply back), then I'm all ears!</text>
-                    </div>
-                </div>
-                <div id="contact" class="contact">
-                    <form id="contact-form" class="contact-form">
-                        <fieldset id="contact-fieldset" class="contact-fieldset">
-                            <legend id="legend">Contact Me</legend>
-                            <div id="name-div">
-                                <label for="name" class="input-label">Name</label>
-                                <input id="name" name="name" class="input-valid" spellcheck="false"/>
-                                <label id="name-error" for="name" class="error-message"></label>
-                            </div>
-                            <div id="email-div">
-                                <label for="email" class="input-label">Email</label>
-                                <input id="email" name="email" class="input-valid" spellcheck="false"/>
-                                <label id="email-error" for="email" class="error-message"></label>
-                            </div>
-                            <div id="message-div">
-                                <label for="message" class="input-label">Message</label>
-                                <textarea id="message" name="message" class="input-valid"></textarea>
-                                <label id="message-error" for="message" class="error-message"></label>
-                            </div>
-                            <div id="submit-button" class="submit-button" onmouseenter="animate_send()" onmouseleave="unanimate_send()">
-                                <img id="send" class="send" src="resources/send.svg"/>
-                                <input id="submit" type="button" value="Send" class="submit" onclick="sendMessage()"/>
-                            </div>
-                        </fieldset>
-                    </form>
+            </div>
+            <div style="height:2rem">
+                <div style="text-align: center" class="info-text animate-fade-in">
+                    <text class="footer" style="font-size:0.5rem">&copy;2022 Kody Puebla.</text>
                 </div>
             </div>
         </div>
-        <div style="height:2rem">
-            <div style="text-align: center" class="info-text">
-                <text class="info" style="font-size:0.5rem">&copy;2022 Kody Puebla.</text>
-            </div>
-        </div>
+        <canvas id="canvas" class="canvas"></canvas>
     </body>
 </html>

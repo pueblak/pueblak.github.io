@@ -1,0 +1,73 @@
+html {
+    font-size: min(5vw, 5vh);
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    margin: 0;
+    background-color: #000022;
+}
+
+.info-text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+#canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+.title {
+    font-size: 1.6rem;
+    text-align: center;
+    z-index: 1;
+    height: 2rem;
+    width: 100%;
+    padding: 2%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    background-color: #111133;
+    opacity: 1;
+}
+
+text.footer {
+    display: block;
+    font-family: 'Figtree', sans-serif;
+    font-size: 0.6rem;
+    color: #dddddd;
+    background-color: #00002280;
+    background: radial-gradient(rgba(0, 0, 34, 1), rgba(0, 0, 34, 0.25));
+    height: fit-content;
+    width: fit-content;
+    overflow-wrap: break-word;
+    padding: 0.6rem;
+    border-radius: 0.5em;
+    margin: 0;
+    z-index: 0;
+}
+
+.animate-fade-in {
+    animation: fade-in 1.5s ease-in-out;
+    animation-fill-mode: both;
+    opacity: 0;
+}
+
+@keyframes fade-in {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
