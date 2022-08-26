@@ -294,6 +294,7 @@ async function navigate_to_page(href) {
         document.getElementById("output").classList.add("fade-color-animation")
         document.getElementById("body").classList.add("fade-color-animation")
         setCookie("visitedTerminal", "True", 1)
+        setCookie("visited", "False", 1)
         await sleep(3200)
     }
     window.location.href = href
@@ -407,7 +408,6 @@ function set_terminal_font_size() {
 }
 
 function load_terminal() {
-    load_body()
     set_terminal_font_size()
     var directory_elem = document.getElementById("directory")
     directory_elem.innerHTML = get_working_directory_text()
@@ -415,7 +415,7 @@ function load_terminal() {
     cursor_elem.innerHTML = CURSOR
     var command_elem = document.getElementById("command")
     command_elem.focus()
-    window.onclick = function(event) {
+    window.onclick = function() {
         if (num_clicks < 2)
             num_clicks += 1
         else if (!interacted) {

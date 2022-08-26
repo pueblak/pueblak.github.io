@@ -1,5 +1,7 @@
 html {
     font-size: min(5vw, 5vh);
+    overflow-x: hidden;
+    overflow-y: auto;
     margin: 0;
     padding: 0;
 }
