@@ -13,22 +13,22 @@
         <script type="text/javascript" charset="utf-8" src="js/matrix.js"></script>
     </head>
     <body onload="load_body(); loadCanvas()">
-        <div style="display: table;width: 100%;height: calc(100% - 2rem)">
-            <div style="display: table-row;height: fit-content">
-                <div class="info-text">
-                    <div class="title">
-                        <text style="color:#f5f360;width: fit-content">LEARN</text><text style="margin-left:4%;color:#70d470;width: fit-content">about me</text><br>
+        <div class="page">
+            <div style="display: table;width: 100%;height: calc(100% - 2rem)">
+                <div style="display: table-row;height: fit-content">
+                    <div class="info-text">
+                        <div class="title">
+                            <text style="color:#f5f360;width: fit-content">LEARN</text><text style="margin-left:4%;color:#70d470;width: fit-content">about me</text><br>
+                        </div>
                     </div>
                 </div>
-                <div>
-                    <canvas id="canvas"></canvas>
+            </div>
+            <div style="height:2rem">
+                <div style="text-align: center" class="info-text">
+                    <text class="footer" style="font-size:0.5rem">&copy;2022 Kody Puebla.</text>
                 </div>
             </div>
         </div>
-        <div style="height:2rem">
-            <div style="text-align: center" class="info-text">
-                <text class="footer" style="font-size:0.5rem">&copy;2022 Kody Puebla.</text>
-            </div>
-        </div>
+        <canvas id="canvas" class="canvas animate-fade-in"></canvas>
     </body>
 </html>

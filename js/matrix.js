@@ -88,6 +88,12 @@ class DigitalRain {
     }
 }
 
+function digitalRainAnimationStep(rain) {
+    rain.drop_binary(randomInteger(rain.width))
+    rain.drop_binary(randomInteger(rain.width))
+    rain.step()
+}
+
 function loadCanvas() {
     const scene = new THREE.Scene()
     const renderer = new THREE.WebGLRenderer({
@@ -102,8 +108,10 @@ function loadCanvas() {
     renderer.setSize(canvas.clientWidth, canvas.clientHeight, false)
     scene.background = new THREE.Color(0x000022)
 
-    let rainFront = new DigitalRain(160, 160, 16, 48)
-    scene.add(rainFront.mesh)
+    let rain = new DigitalRain(160, 160, 16, 48)
+    for (let i = 0; i < rain.height; i++)
+        digitalRainAnimationStep(rain)
+    scene.add(rain.mesh)
 
     renderer.render(scene, camera)
 
@@ -115,9 +123,7 @@ function loadCanvas() {
         totalElapsed += elapsed
         if (totalElapsed > stepLength) {
             totalElapsed = 0
-            rainFront.drop_binary(randomInteger(rainFront.width))
-            rainFront.drop_binary(randomInteger(rainFront.width))
-            rainFront.step()
+            digitalRainAnimationStep(rain)
         }
         renderer.render(scene, camera)
     }
@@ -130,11 +136,6 @@ function loadCanvas() {
         renderer.setSize(canvas.clientWidth, canvas.clientHeight, false)
     }
     window.addEventListener('resize', onWindowResize, false)
-
-    function onWindowScroll() {
-        document.getElementById('canvas').style.top = `${window.scrollY}px`
-    }
-    window.addEventListener('scroll', onWindowScroll, false)
 
     onWindowResize()
     animate()
