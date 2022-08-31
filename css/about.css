@@ -1,4 +1,11 @@
+html {
+    font-size: min(5vw, 5vh);
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+}
+
 body {
-    overflow-x: hidden;
+    overflow: hidden;
     background-color: #000022;
 }
