@@ -1,9 +1,13 @@
 html {
     font-size: min(5vw, 5vh);
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
 }
 
 body {
     margin: 0;
+    overflow: hidden;
 }
 
 .page {
@@ -16,10 +20,6 @@ body {
     overflow-x: hidden;
     overflow-y: auto;
     flex-direction: column;
-}
-
-::-webkit-scrollbar {
-    width: 0;
 }
 
 .info-text {
@@ -73,7 +73,7 @@ fieldset.contact-fieldset {
     border-radius: 1rem;
     justify-content: space-around;
     align-items: flex-start;
-    margin: 1rem 1rem 2rem;
+    margin: 0 1rem 2rem;
     width: 100%;
 }
 
@@ -250,6 +250,7 @@ img.send {
 
 .socials div:hover {
     cursor: pointer;
+    /* filter generated from https://codepen.io/sosuke/pen/Pjoqqp with target color #ffffff */
     filter: brightness(0) saturate(100%) invert(98%) sepia(100%) saturate(0%) hue-rotate(1deg) brightness(104%) contrast(101%);
 }
 

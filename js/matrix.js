@@ -37,7 +37,7 @@ class DigitalRain {
                 this.mesh.add(this.matrix[x][y].mesh)
             }
         }
-        this.mesh.position.set(0, 0, -depth)
+        this.mesh.position.set(-5, 2, -depth)
         this.sources = []
     }
 
@@ -108,7 +108,7 @@ function loadCanvas() {
     renderer.setSize(canvas.clientWidth, canvas.clientHeight, false)
     scene.background = new THREE.Color(0x000022)
 
-    let rain = new DigitalRain(160, 160, 16, 48)
+    let rain = new DigitalRain(104, 48, 16, 32)
     for (let i = 0; i < rain.height; i++)
         digitalRainAnimationStep(rain)
     scene.add(rain.mesh)
@@ -116,7 +116,7 @@ function loadCanvas() {
     renderer.render(scene, camera)
 
     const clock = new THREE.Clock()
-    const stepLength = 0.03125
+    const stepLength = 0.025
     let totalElapsed = 0
     function animate() {
         const elapsed = clock.getDelta()
