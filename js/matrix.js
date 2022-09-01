@@ -108,7 +108,7 @@ function loadCanvas() {
     renderer.setSize(canvas.clientWidth, canvas.clientHeight, false)
     scene.background = new THREE.Color(0x000022)
 
-    let rain = new DigitalRain(104, 48, 16, 32)
+    let rain = new DigitalRain(120, 60, 16, 32)
     for (let i = 0; i < rain.height; i++)
         digitalRainAnimationStep(rain)
     scene.add(rain.mesh)
