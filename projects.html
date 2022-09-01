@@ -11,8 +11,9 @@
         <script type="text/javascript" charset="utf-8" src="js/random.js"></script>
         <script type="text/javascript" charset="utf-8" src="js/terminal.js"></script>
         <script type="text/javascript" charset="utf-8" src="js/matrix.js"></script>
+        <script type="text/javascript" charset="utf-8" src="js/projects.js"></script>
     </head>
-    <body onload="load_body(); loadCanvas()">
+    <body onload="load_body(); loadCanvas(); loadProjects();">
         <div class="page">
             <div style="display: table;width: 100%;height: calc(100% - 2rem)">
                 <div style="display: table-row;height: fit-content">
@@ -21,29 +22,7 @@
                             <text style="color:#70d4ff;width: fit-content">EXPLORE</text><text style="margin-left:4%;color:#70d470;width: fit-content">my work</text><br>
                         </div>
                     </div>
-                    <div class="projects-list">
-                        <div class="project-container">
-                            <div class="project-card blue-theme animate-fade-in">
-                                <div class="project-card-details">
-                                    <img src="resources/terminal.svg" class="project-image-terminal">
-                                    <div class="project-card-text">
-                                        <text class="project-card-title">KnossOS Web Terminal</text>
-                                        <text class="project-card-description">A web terminal which emulates a custom Unix-like operating system.</text>
-                                        <div class="project-button-container">
-                                            <div class="project-card-button left-button" onclick="window.location.href='terminal.html'"><b>TRY IT OUT</b></div>
-                                            <div class="project-card-button right-button" onclick="window.location.href='https://github.com/pueblak/pueblak.github.io/tree/master/js/terminal.js'"><b>VIEW CODE</b></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="project-drop-down">
-                                    <div class="open-drop-down hidden">
-                                        <p>Notable features</p>
-                                        <p>Languages and Frameworks</p>
-                                    </div>
-                                    <div class="closed-drop-down">^</div>
-                                </div>
-                            </div>
-                        </div>
+                    <div id="projects" class="projects-list">
                     </div>
                 </div>
             </div>
