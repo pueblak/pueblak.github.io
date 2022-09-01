@@ -6,6 +6,6 @@ html {
 }
 
 body {
-    overflow: hidden;
+    overflow: clip;
     background-color: #000022;
 }
