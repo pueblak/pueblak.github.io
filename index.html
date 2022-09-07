@@ -244,6 +244,7 @@
                 allowCameraMove = true
                 document.getElementById("page").remove()
                 await sleep(1500)
+                history.pushState(null, null, window.location.href)
                 window.location.href = href
             }
         </script>

@@ -107,10 +107,7 @@ function addProject(project) {
         var technology = document.createElement("img")
         technology.title = project.technologies[i]
         technology.src = "resources/icons/" + data.tech_icons[project.technologies[i]]
-        if (project.technologies[i] == "Selenium")
-            technology.className = "tech-icon-long"
-        else
-            technology.className = "tech-icon"
+        technology.className = "tech-icon"
         technologyList.appendChild(technology)
     }
     open.appendChild(technologyList)
@@ -221,7 +218,7 @@ const data = {
         }
     ],
     "tech_icons": {
-        "JavaScript": "js.svg",
+        "JavaScript": "javascript.svg",
         "HTML": "html-5.svg",
         "CSS": "css-3.svg",
         "Python": "python.svg",
