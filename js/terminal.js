@@ -297,6 +297,7 @@ async function navigate_to_page(href) {
         setCookie("visited", "False", 1)
         await sleep(3200)
     }
+    history.pushState(null, null, window.location.href)
     window.location.href = href
 }
 

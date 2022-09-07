@@ -171,16 +171,25 @@ body {
 }
 
 .close-drop-down {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
     font-size: 1.2rem;
     font-weight: bold;
     color: #70d470;
     width: 100%;
-    text-align: center;
 }
 
 .close-drop-down:hover {
     cursor: pointer;
     color: #70d4ff;
+}
+
+.close-text {
+    font-size: 1.2rem;
+    font-weight: bold;
+    width: 1rem;
+    text-align: center;
 }
 
 .open-drop-down {
