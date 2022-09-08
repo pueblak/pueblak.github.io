@@ -52,7 +52,7 @@ function addProject(project) {
         left_button.className = "project-card-button"
         left_button.classList.add("left-button")
         left_button.onclick = function() { window.open(project.left_action_url, "_blank") }
-        left_button.innerHTML = project.left_action
+        left_button.innerHTML = '<img src="resources/icons/view.svg" class="md-icon dark-blue">View Demo'
         buttonContainer.appendChild(left_button)
     }
 
@@ -61,7 +61,7 @@ function addProject(project) {
         right_button.className = "project-card-button"
         right_button.classList.add("right-button")
         right_button.onclick = function() { window.open(project.right_action_url, "_blank") }
-        right_button.innerHTML = project.right_action
+        right_button.innerHTML = '<img src="resources/icons/code.svg" class="sm-icon dark-blue">Open Code'
         buttonContainer.appendChild(right_button)
     }
 
@@ -106,14 +106,18 @@ function addProject(project) {
     for (var i = 0; i < project.technologies.length; i++) {
         var technology = document.createElement("img")
         technology.title = project.technologies[i]
-        technology.src = "resources/icons/" + data.tech_icons[project.technologies[i]]
+        technology.src = "resources/icons/" + data.tech_icons[project.technologies[i]].filename
         technology.className = "tech-icon"
+        if (!data.tech_icons[project.technologies[i]].hasColor) {
+            technology.classList.add("white")
+        }
         technologyList.appendChild(technology)
     }
     open.appendChild(technologyList)
 }
 
 function loadProjects() {
+    data.projects.sort((a, b) => (a.date < b.date) ? 1 : -1)
     for (var i = 0; i < data.projects.length; i++) {
         addProject(data.projects[i])
     }
@@ -127,8 +131,6 @@ const data = {
             "description": "A web terminal which emulates a custom Unix-like operating system.",
             "image": "terminal.svg",
             "image_class": "project-image-terminal",
-            "left_action": "TRY IT OUT",
-            "right_action": "VIEW CODE",
             "left_action_url": "terminal.html",
             "right_action_url": "https://github.com/pueblak/pueblak.github.io/tree/master/js/terminal.js",
             "features": [
@@ -162,8 +164,6 @@ const data = {
             "description": "A tool to help you solve Wordle puzzles.",
             "image": "wordle.svg",
             "image_class": "project-image",
-            "left_action": "TRY IT OUT",
-            "right_action": "VIEW CODE",
             "left_action_url": "",
             "right_action_url": "https://github.com/pueblak/wordle-autosolver",
             "features": [
@@ -196,8 +196,6 @@ const data = {
             "description": "A chess engine which can play and calculate legal moves from any position.",
             "image": "chess/N_B.png",
             "image_class": "project-image-chess",
-            "left_action": "TRY IT OUT",
-            "right_action": "VIEW CODE",
             "left_action_url": "",
             "right_action_url": "https://github.com/pueblak/chess-engine",
             "features": [
@@ -214,29 +212,51 @@ const data = {
                 "chess engine",
                 "c"
             ],
-            "date": "2022-07-28"
+            "date": "2022-02-21"
+        },
+        {
+            "id": "invasionTD",
+            "title": "Invasion TD",
+            "description": "A tower defense game where you must place turrets to defeat waves of enemies.",
+            "image": "icons/tower-defense.svg",
+            "image_class": "project-image-td",
+            "left_action_url": "",
+            "right_action_url": "https://github.com/pueblak/invasion-td",
+            "features": [
+                "Place turrets to defeat waves of enemies",
+                "Upgrade turrets to increase their power",
+                "Earn money by killing enemies",
+                "Multiple unique turrets and enemies"
+            ],
+            "technologies": [
+                "Unreal Engine 4"
+            ],
+            "date": "2022-05-07"
         }
     ],
     "tech_icons": {
-        "JavaScript": "javascript.svg",
-        "HTML": "html-5.svg",
-        "CSS": "css-3.svg",
-        "Python": "python.svg",
-        "C++": "cpp.svg",
-        "C": "c.svg",
-        "Java": "java.svg",
-        "C#": "c-sharp.svg",
-        "PHP": "php.svg",
-        "Ruby": "ruby.svg",
-        "Swift": "swift.svg",
-        "Rust": "rust.svg",
-        "Scala": "scala.svg",
-        "Haskell": "haskell.svg",
-        "R": "r.svg",
-        "MySQL": "mysql.svg",
-        "TypeScript": "typescript.svg",
-        "Sass": "sass.svg",
-        "Google Chrome": "chrome.svg",
-        "Selenium": "selenium.svg"
+        "JavaScript": { filename: "javascript.svg", hasColor: true },
+        "HTML": { filename: "html-5.svg", hasColor: true },
+        "CSS": { filename: "css-3.svg", hasColor: true },
+        "Python": { filename: "python.svg", hasColor: true },
+        "C++": { filename: "cpp.svg", hasColor: true },
+        "C": { filename: "c.svg", hasColor: false },
+        "Java": { filename: "java.svg", hasColor: true },
+        "C#": { filename: "c-sharp.svg", hasColor: true },
+        "PHP": { filename: "php.svg", hasColor: true },
+        "Ruby": { filename: "ruby.svg", hasColor: true },
+        "Swift": { filename: "swift.svg", hasColor: true },
+        "Rust": { filename: "rust.svg", hasColor: true },
+        "Scala": { filename: "scala.svg", hasColor: true },
+        "Haskell": { filename: "haskell.svg", hasColor: true },
+        "R": { filename: "r.svg", hasColor: true },
+        "MySQL": { filename: "mysql.svg", hasColor: true },
+        "TypeScript": { filename: "typescript.svg", hasColor: true },
+        "Sass": { filename: "sass.svg", hasColor: true },
+        "Google Chrome": { filename: "chrome.svg", hasColor: true },
+        "Selenium": { filename: "selenium.svg", hasColor: true },
+        "WebGL": { filename: "webgl.svg", hasColor: true },
+        "Unity": { filename: "unity.svg", hasColor: true },
+        "Unreal Engine 4": { filename: "unreal.svg", hasColor: false }
     }
 }

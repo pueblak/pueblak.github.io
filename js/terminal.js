@@ -286,16 +286,18 @@ async function terminal_print_special(text, type, wait=0) {
 }
 
 async function navigate_to_page(href) {
-    document.getElementById("directory").remove()
-    document.getElementById("command").remove()
-    document.getElementById("cursor").remove()
-    if (getCookie("visitedTerminal") != "True") {
-        document.getElementById("output").innerHTML = 'Upgrading...'
-        document.getElementById("output").classList.add("fade-color-animation")
-        document.getElementById("body").classList.add("fade-color-animation")
-        setCookie("visitedTerminal", "True", 1)
-        setCookie("visited", "False", 1)
-        await sleep(3200)
+    if (window.location.href.includes('terminal')) {
+        document.getElementById("directory").remove()
+        document.getElementById("command").remove()
+        document.getElementById("cursor").remove()
+        if (getCookie("visitedTerminal") != "True") {
+            document.getElementById("output").innerHTML = 'Upgrading...'
+            document.getElementById("output").classList.add("fade-color-animation")
+            document.getElementById("body").classList.add("fade-color-animation")
+            setCookie("visitedTerminal", "True", 1)
+            setCookie("visited", "False", 1)
+            await sleep(3200)
+        }
     }
     history.pushState(null, null, window.location.href)
     window.location.href = href
