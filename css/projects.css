@@ -84,6 +84,17 @@ body {
     filter: invert(98%) sepia(100%) saturate(0%) hue-rotate(1deg) brightness(104%) contrast(101%);
 }
 
+.project-image-td {
+    height: 3rem;
+    width: 3rem;
+    margin: 0 0.3rem;
+    border-radius: 0.6rem;
+    background-color: #ffffff;
+    padding: 0.5rem;
+    /* filter generated from https://codepen.io/sosuke/pen/Pjoqqp with target color #ffffff */
+    filter: invert(98%) sepia(100%) saturate(0%) hue-rotate(1deg) brightness(104%) contrast(101%);
+}
+
 .project-card-text {
     display: flex;
     flex-direction: column;
@@ -119,7 +130,7 @@ body {
     justify-content: space-around;
     align-items: center;
     height: fit-content;
-    padding: 0.25rem;
+    padding: 0.125rem;
     margin-top: 0.5rem;
 }
 
@@ -128,26 +139,26 @@ body {
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    border-radius: 0.5rem;
-    font-size: 0.8rem;
+    border-radius: 1rem;
+    font-size: 0.75rem;
     font-weight: bold;
     color: #284166;
+    font-family: 'Figtree', sans-serif;
+    padding-right: 0.125rem;
 }
 
 .left-button {
-    width: 5.75rem;
+    width: 5.8rem;
     height: 2rem;
     background-color: #70d470;
     opacity: 0.75;
-    margin-right: 0.25rem;
 }
 
 .right-button {
-    width: 5.75rem;
+    width: 5.8rem;
     height: 2rem;
     background-color: #70d4ff;
     opacity: 0.75;
-    margin-left: 0.25rem;
 }
 
 .left-button:hover, .right-button:hover {
@@ -158,6 +169,28 @@ body {
 .blue-theme {
     background-color: #111133;
     border: solid 0.0625rem #284166;
+}
+
+.sm-icon {
+    height: 0.6rem;
+    width: 0.9rem;
+    margin: 0 0.125rem;
+}
+
+.md-icon {
+    height: 1rem;
+    width: 1rem;
+    margin: 0 0.125rem;
+}
+
+.dark-blue {
+    /* filter generated from https://codepen.io/sosuke/pen/Pjoqqp with target color #284166 */
+    filter: brightness(0) saturate(100%) invert(17%) sepia(72%) saturate(571%) hue-rotate(177deg) brightness(99%) contrast(84%);
+}
+
+.white {
+    /* filter generated from https://codepen.io/sosuke/pen/Pjoqqp with target color #dddddd */
+    filter: brightness(0) saturate(100%) invert(85%) sepia(3%) saturate(1%) hue-rotate(147deg) brightness(121%) contrast(73%);
 }
 
 .project-drop-down {

@@ -6,6 +6,7 @@
         <link rel="stylesheet" type="text/css" charset="utf-8" href="css/terminal.css">
         <link rel="stylesheet" type="text/css" charset="utf-8" href="css/about.css">
         <link rel="stylesheet" type="text/css" charset="utf-8" href="css/matrix.css">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Figtree">
         <script type="text/javascript" charset="utf-8" src="js/three.js"></script>
         <script type="text/javascript" charset="utf-8" src="js/random.js"></script>
         <script type="text/javascript" charset="utf-8" src="js/cookies.js"></script>
@@ -32,7 +33,11 @@
                                 </p>
                             </div>
                             <div class="education">
-                                <h1>Education</h1>
+                                <div class="about-title">
+                                    <img src="resources/icons/pencil-and-ruler.svg" class="icon-xsm cyan">
+                                    <text>Education</text>
+                                    <img src="resources/icons/books.svg" class="icon-xsm cyan">
+                                </div>
                                 <div class="school">
                                     <div class="school-title">
                                         <img src="resources/icons/diploma.svg" class="icon-sm cyan">
@@ -55,8 +60,12 @@
                                 </div>
                             </div>
                             <div class="skills">
-                                <h1>Skills</h1>
-                                <div class="category">
+                                <div class="about-title">
+                                    <img src="resources/icons/user.svg" class="icon-xsm cyan">
+                                    <text>Skills</text>
+                                    <img src="resources/icons/pencil-and-wrench.svg" class="icon-xsm cyan">
+                                </div>
+                                <div class="skill-category skill-category-first">
                                     <h3>Programming Languages</h3>
                                     <div class="icon-grid">
                                         <div class="icon">
@@ -97,7 +106,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="category">
+                                <div class="skill-category">
                                     <h3>Frameworks</h3>
                                     <div class="icon-grid">
                                         <div class="icon">
@@ -114,7 +123,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="category">
+                                <div class="skill-category">
                                     <h3>Tools</h3>
                                     <div class="icon-grid">
                                         <div class="icon">
@@ -134,14 +143,18 @@
                                             <p>Unreal Engine</p>
                                         </div>
                                         <div class="icon">
-                                            <img src="resources/icons/unity.svg" alt="Unity" class="white long">
+                                            <img src="resources/icons/unity.svg" alt="Unity" class="white">
                                             <p>Unity</p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="experience">
-                                <h1>Work Experience</h1>
+                                <div class="about-title">
+                                    <img src="resources/icons/tools.svg" class="icon-xsm cyan">
+                                    <text>Experience</text>
+                                    <img src="resources/icons/onboarding.svg" class="icon-xsm cyan">
+                                </div>
                                 <div class="job">
                                     <div class="job-title">
                                         <img src="resources/icons/casino.svg" class="icon cyan">
@@ -178,7 +191,7 @@
                             </div>
                         </div>
                         <div class="contact">
-                            <h3>Contact Me</h3>
+                            <h3 onclick="navigate_to_page('contact.html')">Contact Me</h3>
                         </div>
                     </div>
                 </div>
