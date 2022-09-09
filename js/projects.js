@@ -126,45 +126,12 @@ function loadProjects() {
 const data = {
     "projects": [
         {
-            "id": "webTerminal",
-            "title": "KnossOS Web Terminal",
-            "description": "A web terminal which emulates a custom Unix-like operating system.",
-            "image": "terminal.svg",
-            "image_class": "project-image-terminal",
-            "left_action_url": "terminal.html",
-            "right_action_url": "https://github.com/pueblak/pueblak.github.io/tree/master/js/terminal.js",
-            "features": [
-                "Custom Unix-like command line interface",
-                "Detailed help command for new users",
-                "Traverse this website as if it were a directory tree",
-                "Ability to change your username to something epic like Hercules or Zeus",
-                "At least 4 colors, maybe even more",
-                "Cookies! (not for you)",
-                "Secrets?"
-            ],
-            "technologies": [
-                "HTML",
-                "CSS",
-                "JavaScript"
-            ],
-            "tags": [
-                "terminal",
-                "unix",
-                "command line",
-                "cli",
-                "javascript",
-                "html",
-                "css"
-            ],
-            "date": "2022-08-31"
-        },
-        {
             "id": "wordleSolver",
             "title": "Wordle Solver",
             "description": "A tool to help you solve Wordle puzzles.",
             "image": "wordle.svg",
             "image_class": "project-image",
-            "left_action_url": "",
+            "left_action_url": "https://replit.com/@pueblak/wordle-autosolver-lite",
             "right_action_url": "https://github.com/pueblak/wordle-autosolver",
             "features": [
                 "Solve any Classic Wordle puzzle in less than six guesses, guaranteed!",
@@ -230,6 +197,12 @@ const data = {
             ],
             "technologies": [
                 "Unreal Engine 4"
+            ],
+            "tags": [
+                "tower defense",
+                "unreal engine 4",
+                "ue4",
+                "unreal"
             ],
             "date": "2022-05-07"
         }
