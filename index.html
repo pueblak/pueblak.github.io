@@ -10,14 +10,13 @@
         <script type="text/javascript" charset="utf-8" src="js/random.js"></script>
         <script type="text/javascript" charset="utf-8" src="js/cookies.js"></script>
         <script type="text/javascript" charset="utf-8" src="js/terminal.js"></script>
+        <script type="text/javascript" charset="utf-8" src="js/global.js"></script>
     </head>
     <body id="body" onload="load_body()">
         <div id="page" class="page">
             <div id="title" class="title">
-                <div>
-                    <text style="color:#70d4ff">Kody</text><text style="margin-left:0.6em;color:#70d4ff">Puebla</text><br>
-                </div>
-                <div><text style="font-size: 0.75rem;color: #f5f360">[UNDER CONSTRUCTION]</text></div>
+                <div><text style="color:#70d4ff">Kody Puebla</text></div>
+                <div><text id="tagline" style="font-size: 0.75rem;color: #70d4ff">Software Developer</text></div>
             </div>
             <div id="nav-container" class="nav-container">
                 <div id="filler"></div>
@@ -30,11 +29,6 @@
         </div>
         <canvas id="canvas"></canvas>
         <script>
-            cVisited = getCookie("visited")
-            if (cVisited != "True") {
-                setCookie("visited", "False", 1)
-                cVisited = "False"
-            }
             cUsername = getCookie("username")
             if (cUsername == "") {
                 setCookie("username", "guest", 7)
@@ -60,16 +54,8 @@
             let cameraTarget = new THREE.Vector3(78, 8, 32)
             let cameraLookTargetA = new THREE.Vector3(120, 200, -100)
             let cameraLookTargetB = new THREE.Vector3(74, 16, -160)
-            if (cVisited == "True") {
-                camera.position.set(cameraTarget.x, cameraTarget.y, cameraTarget.z)
-                camera.lookAt(cameraLookTargetB)
-                document.getElementById("title").style.animation = "none"
-                for (let child of document.getElementById("navigation").children)
-                    child.style.animation = "none"
-            } else {
-                camera.position.set(100, 120, -80)
-                camera.lookAt(cameraLookTargetA)
-            }
+            camera.position.set(100, 120, -80)
+            camera.lookAt(cameraLookTargetA)
 
             const ambientLight = new THREE.AmbientLight(0xd4ffd4, 1)
             scene.add(ambientLight)
@@ -174,10 +160,8 @@
                 group.position.z = 100
             }
 
-            let allowCameraMove = getCookie("visited") != "True"
+            let allowCameraMove = true
             let shouldSnapCamera = true
-            
-            setCookie("visited", "True", 1)
 
             const clock = new THREE.Clock()
             let totalElapsed = 0
@@ -192,7 +176,7 @@
                     camera.position.lerp(cameraTarget, 0.025)
                     camera.lookAt(cameraLookTarget.lerp(cameraLookTargetB, 0.02))
                     totalElapsed += elapsed
-                    if (totalElapsed > 5)
+                    if (totalElapsed > 8)
                         allowCameraMove = false
                 } else if (shouldSnapCamera) {
                     camera.position.set(cameraTarget.x, cameraTarget.y, cameraTarget.z)
@@ -228,9 +212,8 @@
             }
             window.addEventListener('resize', onWindowResize, false)
             window.onmousemove = function(e) {
-                var moveDist = Math.sqrt(e.movementX * e.movementX + e.movementY * e.movementY)
-                groupA.rotation.z += 0.0001 * moveDist
-                groupB.rotation.z += 0.000025 * moveDist
+                mouse.x = (event.clientX / window.innerWidth) * 2 - 1
+                mouse.y = -(event.clientY / window.innerHeight) * 2 + 1
             }
 
             onWindowResize()

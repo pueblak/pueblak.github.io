@@ -11,14 +11,14 @@ function displaySentMessage(messageElements) {
     document.getElementById('legend').innerHTML = "Thanks for reaching out!"
     document.getElementById('legend').style.textAlign = "center"
     document.getElementById('submit-button').outerHTML = (
-        '<div id="output"><pre id="sent-message" class="message"></pre></div>'
+        '<div id="output"><pre id="sent-message" class="sent-message"></pre></div>'
     ) + document.getElementById('submit-button').outerHTML
     document.getElementById('submit-button').onmouseenter = null
     document.getElementById('submit-button').onmouseleave = null
     document.getElementById('sent-message').innerHTML = (
-        'From:  <b>' + messageElements[0] + '</b> (' + messageElements[1] + ')\n' +
-        'To:  <b>Kody Puebla</b> (pueblakody@gmail.com)\n' +
-        '\nBody:\n    <i>' + messageElements.slice(2).join("$") + '</i>'
+        'From:  <b>' + messageElements[0] + '</b>\n    &lt;' + messageElements[1] + '&gt;\n' +
+        'To:  <b>Kody Puebla</b>\n    &lt;pueblakody@gmail.com&gt;\n' +
+        '\Message:\n    <i>' + messageElements.slice(2).join("$") + '</i>'
     )
     document.getElementById('send').src = 'resources/checkmark.svg'
     document.getElementById('send').style.marginLeft = '3.5rem'
@@ -42,25 +42,25 @@ function sendMessage() {
 
     // Validate all fields in the form
     let valid = true
-    const fields = [  // (id, validation function, error message)
+    const fields = [  // (id, validation boolean, error message)
         {
-            'id': 'message',
-            'validateFn': function(x){ return x != "" },
-            'errorMessage': "Say something! I would love to hear from you!"
+            id: 'message',
+            isValid: name != "",
+            errorMessage: "Say something! I would love to hear from you!"
         },
         {
-            'id': 'email',
-            'validateFn': function(x){ return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(x) },
-            'errorMessage': "Are you sure you entered this correctly?"
+            id: 'email',
+            isValid: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(sender),
+            errorMessage: "Are you sure you entered this correctly?"
         },
         {
-            'id': 'name',
-            'validateFn': function(x){ return x != "" },
-            'errorMessage': "How would you like me to address you?"
+            id: 'name',
+            isValid: messageValue != "",
+            errorMessage: "How would you like me to address you?"
         }
     ]
     for (let field of fields) {
-        if (field.validateFn(document.getElementById(field.id).value)) {
+        if (field.isValid) {
             if (document.getElementById(field.id).classList.contains("input-error")) {
                 document.getElementById(field.id).classList.remove("input-error")
                 document.getElementById(field.id).classList.add("input-valid")

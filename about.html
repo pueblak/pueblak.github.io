@@ -10,25 +10,30 @@
         <script type="text/javascript" charset="utf-8" src="js/three.js"></script>
         <script type="text/javascript" charset="utf-8" src="js/random.js"></script>
         <script type="text/javascript" charset="utf-8" src="js/cookies.js"></script>
+        <script type="text/javascript" charset="utf-8" src="js/global.js"></script>
         <script type="text/javascript" charset="utf-8" src="js/terminal.js"></script>
         <script type="text/javascript" charset="utf-8" src="js/matrix.js"></script>
     </head>
     <body onload="load_body(); loadCanvas()">
-        <div class="page">
+        <div class="info-text">
+            <div class="title animate-fade-in">
+                <img src="resources/arrow-left.svg" class="back-arrow cyan" onclick="navigate_to_page('index.html')">
+                <text style="color:#f5f360;width: fit-content">LEARN</text>
+                <text style="margin-left:4%;color:#70d470;width: fit-content">about me</text><br>
+            </div>
+        </div>
+        <div class="page animate-fade-in">
             <div style="display: table;width: 100%;height: calc(100% - 2rem)">
                 <div style="display: table-row;height: fit-content">
-                    <div class="info-text">
-                        <div class="title">
-                            <text style="color:#f5f360;width: fit-content">LEARN</text>
-                            <text style="margin-left:4%;color:#70d470;width: fit-content">about me</text><br>
-                        </div>
-                    </div>
                     <div class="info-text">
                         <div class="about">
                             <div class="intro">
                                 <p>
                                     Hello, world! My name is <span style="color: #70d4ff">Kody Puebla</span>.<br><br>
                                     I am a <span style="color: #70d470">software developer</span> and recent <span style="color: #70d470">Computer Science</span> graduate from the University of Illinois at Urbana-Champaign.<br><br>
+                                    I have experience programming in <span style="color: #70d470">multiple different languages</span>, and I have a deep understanding of how a computer works at a <span style="color: #70d470">low level</span>.
+                                    My favorite programs to write are those involving <span style="color: #70d470">artificial intelligence</span>, <span style="color: #70d470">simulations</span>, and <span style="color: #70d470">game design</span>.
+                                    Check out some of my <a href="projects.html" style="color:#f5f360">projects</a> here.<br><br>
                                     I am currently looking for a <span style="color: #70d470">full-time software development</span> position.
                                     If you are interested in hiring me, please refer to my <a href="contact.html" style="color:#f5f360">contact</a> page for more information on how to reach me.
                                 </p>
@@ -132,16 +137,12 @@
                                             <p>Git</p>
                                         </div>
                                         <div class="icon">
-                                            <img src="resources/icons/github.svg" alt="GitHub" class="white">
-                                            <p>GitHub</p>
-                                        </div>
-                                        <div class="icon">
                                             <img src="resources/icons/vs-code.svg" alt="Visual Studio Code">
                                             <p>VS Code</p>
                                         </div>
                                         <div class="icon">
                                             <img src="resources/icons/unreal.svg" alt="Unreal Engine" class="white">
-                                            <p>Unreal Engine</p>
+                                            <p>Unreal</p>
                                         </div>
                                         <div class="icon">
                                             <img src="resources/icons/unity.svg" alt="Unity" class="white">
