@@ -52,7 +52,7 @@ function addProject(project) {
         left_button.className = "project-card-button"
         left_button.classList.add("left-button")
         left_button.onclick = function() { window.open(project.left_action_url, "_blank") }
-        left_button.innerHTML = '<img src="resources/icons/view.svg" class="md-icon dark-blue">View Demo'
+        left_button.innerHTML = '<img src="resources/icons/play-button.svg" class="md-icon dark-blue">Demo'
         buttonContainer.appendChild(left_button)
     }
 
@@ -61,7 +61,7 @@ function addProject(project) {
         right_button.className = "project-card-button"
         right_button.classList.add("right-button")
         right_button.onclick = function() { window.open(project.right_action_url, "_blank") }
-        right_button.innerHTML = '<img src="resources/icons/code.svg" class="sm-icon dark-blue">Open Code'
+        right_button.innerHTML = '<img src="resources/icons/code.svg" class="sm-icon dark-blue">Code'
         buttonContainer.appendChild(right_button)
     }
 
@@ -139,7 +139,7 @@ const data = {
                 "Also supports variations of Wordle such as Quordle, Octordle, and Fibble",
                 "Option to have the program do all of the typing and page navigation for you",
                 "Command line interface version of the game for those who prefer to type",
-                "Dark Mode"
+                "Light Mode (Dark Mode is default)"
             ],
             "technologies": [
                 "Python",
