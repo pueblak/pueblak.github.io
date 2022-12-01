@@ -18,51 +18,93 @@ const COMMANDS_HELP = `
   alias NAME -------- change your username to {NAME}\n
   clear ------------- clear the screen of all content
 `
-const DIR = {home: {
-    __name__: 'home',
-    __type__: "DIR",
-    __value__: "index.html",
-    contact: {
-        __name__: 'contact',
-        __type__: "SYM_LINK",
-        __value__: "contact.html",
-        email: {
-            __name__: 'email.txt',
-            __type__: "TXT",
-            __value__: "pueblakody@gmail.com"
+const DIR = {
+    bin: {
+        __name__: 'bin',
+        __type__: 'DIR',
+        __value__: "."
+    },
+    boot: {
+        __name__: 'boot',
+        __type__: 'DIR',
+        __value__: "."
+    },
+    home: {
+        __name__: 'home',
+        __type__: "DIR",
+        __value__: "index.html",
+        about: {
+            __name__: 'about',
+            __type__: "SYM_LINK",
+            __value__: "about.html",
         },
-        phone: {
-            __name__: 'phone.txt',
-            __type__: "TXT",
-            __value__: "(309)737-5945"
+        contact: {
+            __name__: 'contact',
+            __type__: "SYM_LINK",
+            __value__: "contact.html",
+            email: {
+                __name__: 'email.txt',
+                __type__: "TXT",
+                __value__: "pueblakody@gmail.com"
+            },
+            phone: {
+                __name__: 'phone.txt',
+                __type__: "TXT",
+                __value__: "(309)737-5945"
+            },
+            linkedin: {
+                __name__: 'linkedin.txt',
+                __type__: "TXT",
+                __value__: "www.linkedin.com/in/kody-puebla"
+            },
+            github: {
+                __name__: 'github.txt',
+                __type__: "TXT",
+                __value__: "www.github.com/pueblak"
+            }
         },
-        linkedin: {
-            __name__: 'linkedin.txt',
-            __type__: "TXT",
-            __value__: "www.linkedin.com/in/kody-puebla"
+        projects: {
+            __name__: 'projects',
+            __type__: "SYM_LINK",
+            __value__: "projects.html",
         },
-        github: {
-            __name__: 'github.txt',
-            __type__: "TXT",
-            __value__: "www.github.com/pueblak"
+        troubleshoot: {
+            __name__: 'troubleshoot',
+            __type__: "EXE",
+            __value__: troubleshoot_exe
         }
     },
-    projects: {
-        __name__: 'projects',
-        __type__: "SYM_LINK",
-        __value__: "projects.html",
+    media: {
+        __name__: 'media',
+        __type__: 'DIR',
+        __value__: "."
     },
-    about: {
-        __name__: 'about',
-        __type__: "SYM_LINK",
-        __value__: "about.html",
+    root: {
+        __name__: 'root',
+        __type__: "DIR",
+        __value__: "."
     },
-    troubleshoot: {
-        __name__: 'troubleshoot',
-        __type__: "EXE",
-        __value__: troubleshoot_exe
+    tmp: {
+        __name__: 'tmp',
+        __type__: "DIR",
+        __value__: ".",
+        '.cookies': {
+            __name__: '.cookies',
+            __type__: "TXT",
+            __value__: ""
+        }
+    },
+    usr: {
+        __name__: 'usr',
+        __type__: "DIR",
+        __value__: ".",
+        root: {
+            __name__: 'root',
+            __type__: "DIR",
+            __value__: "."
+        }
     }
-}}
+}
 
 const sleep = ms => new Promise(r => setTimeout(r, ms))
 
@@ -80,9 +122,12 @@ function load_body() {
     document.addEventListener("keydown", function(e) {
         if (e.code == "Escape") {
             directory = window.location.href.replace("https://kody-puebla.com", "/home")
+            setCookie("directory", directory, 1)
             window.location.href = "https://kody-puebla.com/terminal"
         }
     })
+    if (getCookie("directory") != "")
+        directory = getCookie("directory")
 }
 
 function get_working_directory_text() {

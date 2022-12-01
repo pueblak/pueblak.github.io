@@ -262,3 +262,10 @@ body {
     height: 2.5rem;
     padding: 0.75rem;
 }
+
+video {
+    width: 12rem;
+    height: fit-content;
+    margin: 0 auto;
+    border-radius: 0.25rem;
+}

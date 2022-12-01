@@ -5,11 +5,13 @@ window.onmousemove = function(event) {
 }
 
 class DigitalRain {
-    constructor(width, height, trailLength) {
+    constructor(width, height, trailLength, digitSize) {
         this.width = Math.floor(width)
         this.height = Math.floor(height)
+        this.aspect = width / height
         this.trailLength = Math.max(trailLength, 1)
         this.mesh = new THREE.Group()
+        this.digitSize = digitSize
         this.lookup = {}
         this.matrix = []
         for (let x = 0; x <= this.width; x++) {
@@ -24,7 +26,7 @@ class DigitalRain {
                     geometry: new THREE.BufferGeometry,
                     material: new THREE.PointsMaterial({
                         color: 0x70ff70,
-                        size: 16,
+                        size: this.digitSize,
                         map: isOne ? binary1 : binary0,
                         transparent: true,
                         opacity: 0,
@@ -70,10 +72,10 @@ class DigitalRain {
                     this.matrix[x][y].brightness -= 1
                     this.matrix[x][y].material.opacity = Math.min((brightness - 1) / this.trailLength * 0.25, 0.33)
                 }
-                if (16 - this.matrix[x][y].material.size > 0.25)
+                if (this.digitSize - this.matrix[x][y].material.size > 0.25)
                     this.matrix[x][y].material.size += 0.25
                 else
-                    this.matrix[x][y].material.size = 16
+                    this.matrix[x][y].material.size = this.digitSize
             }
         }
         let oldSources = this.sources.slice()
@@ -103,11 +105,16 @@ class DigitalRain {
     distort(x, y, targetSize) {
         this.matrix[x][y].material.size = targetSize
     }
+
+    resize(viewportAspect) {
+        
+    }
 }
 
 class DigitalParticles {
-    constructor(frequency) {
+    constructor(frequency, targetSize) {
         this.frequency = frequency
+        this.targetSize = targetSize
         this.mesh = new THREE.Group()
         this.particles = []
         this.lookup = {}
@@ -118,7 +125,7 @@ class DigitalParticles {
         geometry.setAttribute('position', new THREE.BufferAttribute(new Float32Array([x, y, z]), 3))
         const material = new THREE.PointsMaterial({
             color: 0x70ff70,
-            size: 16 * scale,
+            size: this.targetSize * scale,
             map: Math.random() < 0.5 ? binary0 : binary1,
             transparent: true,
             opacity: 0.5,
