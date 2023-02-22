@@ -17,7 +17,7 @@ function mouseAnimationStep(raycaster, mouse, camera, scene, rain) {
     for (let intersect of intersects) {
         if (intersect.object.uuid in rain.lookup) {
             let binary = rain.lookup[intersect.object.uuid]
-            let distortion = (intersect.distanceToRay - 2) * 4
+            let distortion = (intersect.distanceToRay - 2) * rain.digitSize / 4
             rain.distort(binary.x, binary.y, distortion)
         }
     }
@@ -32,7 +32,7 @@ function loadCanvas() {
 
     let aspect = window.innerWidth / window.innerHeight
     const viewSize = 1000
-    const camera = new THREE.OrthographicCamera(viewSize / -2 * aspect, viewSize / 2 * aspect, viewSize / 2, viewSize / -2, -0.1, 1000)
+    const camera = new THREE.OrthographicCamera(viewSize / -2 * aspect, viewSize / 2 * aspect, viewSize / 2, viewSize / -2, -0.1, viewSize)
     const raycaster = new THREE.Raycaster()
     raycaster.params.Points.threshold = 128
 
@@ -40,12 +40,13 @@ function loadCanvas() {
     renderer.setSize(window.innerWidth, window.innerHeight, false)
     scene.background = new THREE.Color(0x000022)
 
-    let rain = new DigitalRain(128, 64, 10)
+    let digitSize = Math.min(window.innerWidth, window.innerHeight) / 48
+    let rain = new DigitalRain(128, 64, 10, digitSize)
     for (let i = 0; i < rain.height; i++)
         digitalRainAnimationStep(rain)
     scene.add(rain.mesh)
 
-    let particles = new DigitalParticles(0.5)
+    let particles = new DigitalParticles(0.5, digitSize)
     scene.add(particles.mesh)
 
     renderer.render(scene, camera)
@@ -68,21 +69,21 @@ function loadCanvas() {
 
     function onWindowResize() {
         let aspect = window.innerWidth / window.innerHeight
-        camera.aspect = aspect
         camera.left = viewSize * aspect / -2
         camera.right = viewSize * aspect / 2
         camera.top = viewSize / 2
         camera.bottom = viewSize / -2
         camera.updateProjectionMatrix()
-        renderer.setPixelRatio(window.devicePixelRatio)
         renderer.setSize(window.innerWidth, window.innerHeight, false)
+        renderer.setPixelRatio(window.devicePixelRatio)
     }
     window.addEventListener('resize', onWindowResize, false)
 
     function onMouseMove(event) {
         mouse.x = (event.clientX / window.innerWidth) * 2 - 1
         mouse.y = -(event.clientY / window.innerHeight) * 2 + 1
-        particles.addRandomParticleAtMouse()
+        if (Math.random() < 0.4)
+            particles.addRandomParticleAtMouse()
     }
     window.addEventListener('mousemove', onMouseMove, false)
 

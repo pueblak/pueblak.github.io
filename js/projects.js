@@ -85,6 +85,17 @@ function addProject(project) {
     closeText.style.rotate = "180deg"
     close.appendChild(closeText)
 
+    if (project.preview != "") {
+        var previewVideo = document.createElement("video")
+        previewVideo.src = "resources/demos/" + project.preview
+        previewVideo.innerHTML = "Your browser does not support the video tag."
+        previewVideo.controls = true
+        previewVideo.autoplay = true
+        previewVideo.loop = true
+        previewVideo.muted = true
+        open.appendChild(previewVideo)
+    }
+
     var features = document.createElement("p")
     features.innerHTML = "Notable Features"
     open.appendChild(features)
@@ -133,12 +144,14 @@ const data = {
             "image_class": "project-image",
             "left_action_url": "https://replit.com/@pueblak/wordle-autosolver-lite",
             "right_action_url": "https://github.com/pueblak/wordle-autosolver",
+            "preview": "Wordle Demo.mp4",
             "features": [
                 "Solve any Classic Wordle puzzle in less than six guesses, guaranteed!",
                 "Can also solve Wordle on Hard mode, or on Wordzy's Master mode",
                 "Also supports variations of Wordle such as Quordle, Octordle, and Fibble",
+                "Can solve up to 500 simultaneous puzzles at once",
                 "Option to have the program do all of the typing and page navigation for you",
-                "Command line interface version of the game for those who prefer to type",
+                "Command line interface version of the game for those who do not wish to use Selenium",
                 "Light Mode (Dark Mode is default)"
             ],
             "technologies": [
@@ -165,6 +178,7 @@ const data = {
             "image_class": "project-image-chess",
             "left_action_url": "",
             "right_action_url": "https://github.com/pueblak/chess-engine",
+            "preview": "",
             "features": [
                 "Play against the engine in a web browser",
                 "Calculate legal moves from any position",
@@ -189,6 +203,7 @@ const data = {
             "image_class": "project-image-td",
             "left_action_url": "",
             "right_action_url": "https://github.com/pueblak/invasion-td",
+            "preview": "Invasion TD Demo.mp4",
             "features": [
                 "Place turrets to defeat waves of enemies",
                 "Upgrade turrets to increase their power",
