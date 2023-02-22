@@ -6,8 +6,8 @@ window.onmousemove = function(event) {
 
 class DigitalRain {
     constructor(width, height, trailLength, digitSize) {
-        this.width = Math.floor(width)
-        this.height = Math.floor(height)
+        this.width = width
+        this.height = height
         this.aspect = width / height
         this.trailLength = Math.max(trailLength, 1)
         this.mesh = new THREE.Group()
@@ -104,10 +104,6 @@ class DigitalRain {
 
     distort(x, y, targetSize) {
         this.matrix[x][y].material.size = targetSize
-    }
-
-    resize(viewportAspect) {
-        
     }
 }
 

@@ -40,7 +40,7 @@ function loadCanvas() {
     renderer.setSize(window.innerWidth, window.innerHeight, false)
     scene.background = new THREE.Color(0x000022)
 
-    let digitSize = Math.min(window.innerWidth, window.innerHeight) / 40
+    let digitSize = Math.min(window.innerWidth, window.innerHeight) / 48
     let rain = new DigitalRain(128, 64, 10, digitSize)
     for (let i = 0; i < rain.height; i++)
         digitalRainAnimationStep(rain)
@@ -76,7 +76,6 @@ function loadCanvas() {
         camera.updateProjectionMatrix()
         renderer.setSize(window.innerWidth, window.innerHeight, false)
         renderer.setPixelRatio(window.devicePixelRatio)
-        rain.resize(aspect)
     }
     window.addEventListener('resize', onWindowResize, false)
 
