@@ -1,0 +1,59 @@
+<html>
+    <head>
+        <title>Drionen Translator - Kody Puebla</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" charset="utf-8" href="css/terminal.css">
+        <link rel="stylesheet" type="text/css" charset="utf-8" href="css/matrix.css">
+        <link rel="stylesheet" type="text/css" charset="utf-8" href="css/dictionary.css">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Figtree">
+        <script type="text/javascript" charset="utf-8" src="js/three.js"></script>
+        <script type="text/javascript" charset="utf-8" src="js/cookies.js"></script>
+        <script type="text/javascript" charset="utf-8" src="js/random.js"></script>
+        <script type="text/javascript" charset="utf-8" src="js/global.js"></script>
+        <script type="text/javascript" charset="utf-8" src="js/terminal.js"></script>
+        <script type="text/javascript" charset="utf-8" src="js/matrix.js"></script>
+        <script type="text/javascript" charset="utf-8" src="js/dictionary.js"></script>
+        <script src="https://cdn.jsdelivr.net/pyodide/v0.22.0/full/pyodide.js"></script>
+    </head>
+    <body onload="load_body(); loadCanvas(false); showMainMenu()">
+        <div id="top-text" class="info-text animate-fade-in">
+            <div class="title">
+                <img src="resources/arrow-left.svg" class="back-arrow cyan" onclick="navigate_to_page('index.html')">
+                <text style="color:#db9f66;width: fit-content">DRIONEN</text>
+                <text style="margin-left:4%;color:#70d470;width: fit-content">dictionary</text><br>
+            </div>
+        </div>
+        <div class="page">
+            <div style="display: table;width: 100%;height: calc(100% - 2rem)">
+                <div style="display: table-row;height: fit-content">
+                    <div id="dictionary" class="dictionary animate-fade-in">
+                        <form id="dictionary-form" class="dictionary-form">
+                            <fieldset id="dictionary-fieldset" class="dictionary-fieldset">
+                                <legend id="legend">Main Menu</legend>
+                                <div class="menu-option" onclick="beginSearch()">
+                                    <img src="resources/icons/magnifier.png" class="menu-option">
+                                    <labeL class="menu-option">Search</labeL>
+                                </div>
+                                <div class="menu-option" onclick="beginBrowse()">
+                                    <img src="resources/icons/book.png" class="menu-option">
+                                    <labeL class="menu-option">Browse</labeL>
+                                </div>
+                                <div class="menu-option" onclick="beginEdit()">
+                                    <img src="resources/icons/edit.png" class="menu-option">
+                                    <labeL class="menu-option">Edit</labeL>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div style="height:2rem">
+                <div style="text-align: center" class="info-text animate-fade-in">
+                    <text class="footer" style="font-size: 0.5rem">&copy;2023 Kody Puebla.</text>
+                </div>
+            </div>
+        </div>
+        <canvas id="canvas" class="canvas animate-fade-in"></canvas>
+    </body>
+</html>
