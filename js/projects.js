@@ -149,7 +149,7 @@ const data = {
                 "Solve any Classic Wordle puzzle in less than six guesses, guaranteed!",
                 "Can also solve Wordle on Hard mode, or on Wordzy's Master mode",
                 "Also supports variations of Wordle such as Quordle, Octordle, and Fibble",
-                "Can solve up to 500 simultaneous puzzles at once",
+                "Can solve up to 500 simultaneous puzzles",
                 "Option to have the program do all of the typing and page navigation for you",
                 "Command line interface version of the game for those who do not wish to use Selenium",
                 "Light Mode (Dark Mode is default)"

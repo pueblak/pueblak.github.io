@@ -5,7 +5,7 @@ window.onmousemove = function(event) {
 }
 
 class DigitalRain {
-    constructor(width, height, trailLength, digitSize) {
+    constructor(width, height, trailLength, digitSize, binary=true) {
         this.width = width
         this.height = height
         this.aspect = width / height
@@ -17,17 +17,39 @@ class DigitalRain {
         for (let x = 0; x <= this.width; x++) {
             this.matrix.push([])
             for (let y = 0; y <= this.height; y++) {
-                let isOne = Math.random() < 0.5
+                let rainImageIndex = Math.floor(Math.random() * 4)
+                switch (rainImageIndex) {
+                    case 0:
+                        if (!binary)
+                            rainImageIndex = 2
+                        break
+                    case 1:
+                        if (!binary)
+                            rainImageIndex = 3
+                        break
+                    case 2:
+                        if (binary)
+                            rainImageIndex = 0
+                        else
+                            rainImageIndex = 4
+                        break
+                    case 3:
+                        if (binary)
+                            rainImageIndex = 1
+                        else
+                            rainImageIndex = 5
+                        break
+                }
                 this.matrix[x].push({
                     x: x,
                     y: y,
-                    isOne: isOne,
+                    index: rainImageIndex,
                     brightness: 0,
                     geometry: new THREE.BufferGeometry,
                     material: new THREE.PointsMaterial({
                         color: 0x70ff70,
                         size: this.digitSize,
-                        map: isOne ? binary1 : binary0,
+                        map: rainImages[rainImageIndex],
                         transparent: true,
                         opacity: 0,
                         depthWrite: false,
@@ -84,8 +106,12 @@ class DigitalRain {
             const x = source.x
             const y = source.y
             if (y < this.height) {
-                this.matrix[x][y].isOne = !this.matrix[x][y].isOne
-                this.matrix[x][y].material.map = this.matrix[x][y].isOne ? binary1 : binary0
+                this.matrix[x][y].index += 1
+                if (this.matrix[x][y].index >= rainImages.length)
+                    this.matrix[x][y].index = 2
+                else if (this.matrix[x][y].index == 2)
+                    this.matrix[x][y].index = 0
+                this.matrix[x][y].material.map = rainImages[this.matrix[x][y].index]
                 this.matrix[x][y].material.color = new THREE.Color(0xd4ffd4)
                 this.illuminate(x, y)
                 this.sources.push({x: x, y: y + 1})
@@ -95,8 +121,12 @@ class DigitalRain {
             const x = Math.floor(Math.random() * this.width)
             const y = Math.floor(Math.random() * this.height)
             if (!this.sources.includes({x: x, y: y}) && this.matrix[x][y].material.opacity >= 0.25) {
-                this.matrix[x][y].isOne = !this.matrix[x][y].isOne
-                this.matrix[x][y].material.map = this.matrix[x][y].isOne ? binary1 : binary0
+                this.matrix[x][y].index += 1
+                if (this.matrix[x][y].index >= rainImages.length)
+                    this.matrix[x][y].index = 2
+                else if (this.matrix[x][y].index == 2)
+                    this.matrix[x][y].index = 0
+                this.matrix[x][y].material.map = rainImages[this.matrix[x][y].index]
             }
         }
         return this
@@ -108,21 +138,45 @@ class DigitalRain {
 }
 
 class DigitalParticles {
-    constructor(frequency, targetSize) {
+    constructor(frequency, targetSize, binary=true) {
         this.frequency = frequency
         this.targetSize = targetSize
         this.mesh = new THREE.Group()
         this.particles = []
         this.lookup = {}
+        this.binary = binary
     }
 
     addParticle(x, y, z, scale=1.0, distance=10.0) {
         const geometry = new THREE.BufferGeometry()
         geometry.setAttribute('position', new THREE.BufferAttribute(new Float32Array([x, y, z]), 3))
+        let rainImageIndex = Math.floor(Math.random() * 4)
+        switch (rainImageIndex) {
+            case 0:
+                if (!this.binary)
+                    rainImageIndex = 2
+                break
+            case 1:
+                if (!this.binary)
+                    rainImageIndex = 3
+                break
+            case 2:
+                if (this.binary)
+                    rainImageIndex = 0
+                else
+                    rainImageIndex = 4
+                break
+            case 3:
+                if (this.binary)
+                    rainImageIndex = 1
+                else
+                    rainImageIndex = 5
+                break
+        }
         const material = new THREE.PointsMaterial({
             color: 0x70ff70,
             size: this.targetSize * scale,
-            map: Math.random() < 0.5 ? binary0 : binary1,
+            map: rainImages[rainImageIndex],
             transparent: true,
             opacity: 0.5,
             depthWrite: false,

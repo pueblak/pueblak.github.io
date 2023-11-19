@@ -1,0 +1,396 @@
+@font-face {
+    font-family: "Drionen";
+    src: url('../resources/fonts/Drionen.otf');
+    font-style: normal;
+    font-weight: normal;
+}
+
+html {
+    font-size: min(5vw, 5vh);
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    margin: 0;
+    overflow: clip;
+}
+
+.page {
+    position: absolute;
+    top: 3rem;
+    left: 0;
+    width: 100%;
+    height: calc(100% - 3rem);
+    display: flex;
+    overflow-x: hidden;
+    overflow-y: auto;
+    flex-direction: column;
+}
+
+.info-text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.title {
+    font-size: 1.6rem;
+    text-align: center;
+    z-index: 2;
+    height: 2rem;
+    width: 100%;
+    padding: 0.5rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    background-color: #111133;
+    opacity: 1;
+}
+
+text.info {
+    display: block;
+    font-family: 'Figtree', sans-serif;
+    font-size: 0.6rem;
+    color: #dddddd;
+    background-image: linear-gradient(rgba(0, 0, 34, 0.25), rgba(0, 0, 34, 1), rgba(0, 0, 34, 1), rgba(0, 0, 34, 0.25));
+    white-space: pre-wrap;
+    width: fit-content;
+    width: 16rem;
+    overflow-wrap: break-word;
+    padding: 0.5rem;
+    margin: 0;
+}
+
+.animate-fade-in {
+    animation: fade-in 1.5s ease-in-out;
+    animation-fill-mode: both;
+    opacity: 0;
+}
+
+@keyframes fade-in {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.input-valid {
+    border: none;
+}
+
+.input-error {
+    border: solid 0.0625rem #d45050;
+}
+
+form.dictionary-form textarea {
+    font-size: 0.6rem;
+    width: 12rem;
+    height: 4rem;
+    padding: 0.5rem 0.5rem;
+    resize: none;
+    color: #dddddd;
+    text-align: left;
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+    background-color: #6b6ba540;
+    border-radius: 0.25rem;
+}
+
+div#dictionary {
+    height: fit-content;
+    width: 100%;
+    font-family: 'Figtree', sans-serif;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 2%;
+}
+
+form.dictionary-form {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    height: 10rem;
+    width: 12rem;
+    margin: 0;
+    padding: 0;
+}
+
+fieldset.dictionary-fieldset {
+    display: flex;
+    flex-direction: column;
+    border: solid 0.085rem #70d4ff40;
+    background-color: #111133;
+    border-radius: 1rem;
+    justify-content: space-around;
+    align-items: center;
+    margin: 0 1rem;
+    width: 100%;
+}
+
+fieldset.dictionary-fieldset legend {
+    font-size: 1.2rem;
+    color: #70d4ff;
+    font-weight: bold;
+    text-align: center;
+    padding: 0 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+label.error-message {
+    font-style: italic;
+    font-size: 0.4rem;
+    color: #d45050;
+    text-align: left;
+    width: 100%;
+}
+
+#response {
+    font-family: "Drionen", serif;
+    margin: 0 1rem;
+    width: 12rem;
+}
+
+.submit-button>input {
+    padding: 0.5rem 0.5rem;
+    background-color: #44446640;
+    border: none;
+    color: #111133;
+    font-weight: bold;
+    font-size: 0.75rem;
+    background-color: #70d4ff;
+    width: 6rem;
+    height: 2rem;
+    border-radius: 1rem;
+}
+
+.submit-button>input:hover {
+    background-color: #70d4ff80;
+    cursor: pointer;
+}
+
+div.menu-option {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    width: fit-content;
+    height: 2.5rem;
+    color: #70d4ff;
+    opacity: 0.75;
+    margin: 0;
+    padding: 0;
+}
+
+img.menu-option {
+    width: 1rem;
+    height: 1rem;
+    margin-right: 0.5rem;
+    /* filter generated from https://codepen.io/sosuke/pen/Pjoqqp with target color #70d4ff */
+    filter: invert(84%) sepia(39%) saturate(4545%) hue-rotate(175deg) brightness(107%) contrast(104%);
+}
+
+label.menu-option {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: fit-content;
+    height: 2rem;
+    color: #70d4ff;
+    opacity: 1;
+    margin: 0;
+    padding: 0;
+}
+
+.menu-option:hover {
+    opacity: 1;
+    cursor: pointer;
+}
+
+.menu-option:last-of-type {
+    margin-bottom: 0.25rem;
+}
+
+.dictionary-window {
+    border: solid 0.085rem #70d4ff40;
+    background-color: #111133;
+    border-radius: 1rem;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    animation: expand-window 1.5s ease-in-out;
+    animation-fill-mode: both;
+}
+
+@keyframes expand-window {
+    0% {
+        width: 12rem;
+        height: 10rem;
+    }
+    100% {
+        width: 16rem;
+        height: fit-content;
+    }
+}
+
+.dictionary-result {
+    animation: fade-in 1s ease-in-out 1s;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    width: 95%;
+    height: fit-content;
+    color: #dddddd;
+}
+
+.dictionary-result-index {
+    display: flex;
+    font-size: 0.8rem;
+    width: 2rem;
+    text-align: center;
+    justify-content: center;
+    padding-right: 0.4rem;
+    opacity: 0.5;
+}
+
+.dictionary-preview {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    width: 90%;
+    height: 2rem;
+    border: solid 0.085rem #70d4ff40;
+    background-color: #222244;
+    opacity: 0.8;
+    border-radius: 0.5rem;
+    margin: 0.25rem 0;
+    color: #dddddd;
+}
+
+.dictionary-preview:hover {
+    opacity: 1;
+    cursor: pointer;
+}
+
+.dictionary-preview:last-of-type {
+    margin-bottom: 0.5rem;
+}
+
+.dictionary-preview-word {
+    flex: 2 2 0;
+    font-size: 1rem;
+    font-weight: 320;
+    font-family: "Drionen";
+    color: #70d4ff;
+    text-align: start;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+}
+
+.dictionary-preview-details {
+    display: flex;
+    flex: 5 2 0;
+    height: fit-content;
+    font-size: 0.4rem;
+    font-style: italic;
+    justify-content: flex-start;
+    align-items: flex-start;
+    text-align: left;
+    margin-right: 0.5rem;
+}
+
+.dictionary-seperator {
+    animation: fade-in 1s ease-in-out 1s;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    width: 100%;
+    height: 1.2rem;
+    margin-top: 0.4rem;
+    margin-right: 1rem;
+    color: #70d4ffb0;
+}
+
+.dictionary-line {
+    display: flex;
+    width: 100%;
+    height: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.dictionary-letter {
+    display: flex;
+    flex-direction: row;
+    margin-left: 1rem;
+    font-size: 1.2rem;
+    font-family: "Drionen";
+    font-weight: 500;
+    padding: 0.2rem;
+}
+
+@keyframes fade-in {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.browse-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    width: 95%;
+    height: 1rem;
+    margin-top: 1rem;
+    color: #dddddd;
+}
+
+.browse-header-back {
+    display: flex;
+    flex: 0 1 0;
+    justify-content: center;
+    align-items: center;
+    width: fit-content;
+    height: 1rem;
+    margin: 0.5rem;
+    opacity: 0.75;
+    /* filter generated from https://codepen.io/sosuke/pen/Pjoqqp with target color #70d4ff */
+    filter: invert(84%) sepia(39%) saturate(4545%) hue-rotate(175deg) brightness(107%) contrast(104%);
+}
+
+.browse-header-back:hover {
+    opacity: 1;
+    cursor: pointer;
+}
+
+.browse-header-title {
+    flex: 1 1 0;
+    font-size: 0.8rem;
+    font-weight: 500;
+    font-family: "Courier New", Courier, monospace;
+    margin-left: 1rem;
+    text-align: center;
+    color: #70d4ff;
+}
+
+.browse-header-blank {
+    flex: 0 1 1rem;
+    width: 1rem;
+    height: 1rem;
+    margin: 0.5rem;
+}

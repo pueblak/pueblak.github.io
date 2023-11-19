@@ -6,9 +6,8 @@ const html_input = `
            oninput="resize_input(this.value)"
            spellcheck="false"/>
     <text class="cursor" id="cursor">█</text>`
-const COMMANDS_HELP = `
+var COMMANDS_HELP = `
   help -------------- display this list of commands\n
-  upgrade ----------- upgrade the terminal display to a more modern webpage\n
   pwd --------------- print working directory\n
   run [FILENAME] ---- run the given file (must be executable)\n
   cat [FILENAME] ---- view the given file (must be text)\n
@@ -106,22 +105,25 @@ const DIR = {
     }
 }
 
-const sleep = ms => new Promise(r => setTimeout(r, ms))
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
 
 
 var username = 'guest'
-var directory = '/home'
+var directory = '~'
 var history = []
 var excess_lines = 0
 var interacted = false
 var num_clicks = 0
+var troubleshoot_ran = false
 
 function load_body() {
     if (window.location.href.includes("pueblak.github.io"))
         window.location.href = window.location.href.replace("pueblak.github.io", "kody-puebla.com")
     document.addEventListener("keydown", function(e) {
         if (e.code == "Escape") {
-            directory = window.location.href.replace("https://kody-puebla.com", "/home")
+            directory = window.location.href.replace("https://kody-puebla.com", "~")
             setCookie("directory", directory, 1)
             window.location.href = "https://kody-puebla.com/terminal"
         }
@@ -131,7 +133,7 @@ function load_body() {
 }
 
 function get_working_directory_text() {
-    return username + '@kody-puebla.com:~' + directory + ' $'
+    return username + '@kody-puebla.com:' + directory + '$'
 }
 
 function parse_directory_path(path_string) {
@@ -152,6 +154,8 @@ function parse_directory_path(path_string) {
 }
 
 function find_path_node(path_array, require_dir = false) {
+    if (path_array[0] == '~')
+        path_array[0] = 'home'
     var path = []
     var node = DIR
     for (var index = 0; index < path_array.length; index++) {
@@ -176,6 +180,7 @@ function change_directory(path_string) {
     try {
         find_path_node(path_array, true)
         directory = '/' + path_array.join('/')
+        directory = directory.replace(/\/home/y, "~")
     } catch (e) {
         terminal_print_special(e.toString(), "error bold")
     }
@@ -350,11 +355,25 @@ async function navigate_to_page(href) {
 
 async function begin_labyrinth_quest() {
     await terminal_print("\n...Theseus?\n", 4000)
-    await terminal_print("Theseus, my boy, is that you?\n", 5000)
+    await terminal_print("Theseus, my boy, is that really you?\n", 5000)
     await terminal_print("Please, my son... Do not venture into the labyrinth. "
                          + "I fear what may come of you if you do.", 6000)
     await terminal_print_special('A new directory has been added to "/home"',
                                  "alert bold", 8000)
+    DIR['home']['labyrinth'] = {
+        '__name__': 'labyrinth',
+        '__type__': 'DIR',
+        '__value__': '.',
+        'README': {
+            '__name__': 'README',
+            '__type__': 'TXT',
+            '__value__': (
+                'If you choose to enter the labyrinth, you must keep the following in mind:\n'
+                + '\n  1. If you leave the labyrinth at any point, you will lose all progress.'
+                + '\n  2. Only Theseus may remain in the labyrinth.'
+            )
+        }
+    }
 }
 
 async function process_command(command) {
@@ -373,6 +392,11 @@ async function process_command(command) {
                 terminal_print(COMMANDS_HELP)
             break
         case "upgrade":
+            if (!troubleshoot_ran) {
+                error_message = "'upgrade' command not found"
+                break
+            }
+        case "exit":
             if (args.length != 1)
                 error_message = 'Too many arguments. (expected 0)'
             else
@@ -395,11 +419,15 @@ async function process_command(command) {
         case "alias":
             if (args.length != 2)
                 error_message = 'Incorrect number of arguments. (expected 1)'
+            else if (args[1] == username)
+                terminal_print("You are already known as '" + username + "'.")
+            else if (args[1] == "root")
+                terminal_print("You cannot alias 'root'.")
             else {
                 terminal_print("Username changed from '" + username
-                               + "' to '" + args[1] + "'")
-                username = args[1]
-                if (username == "Theseus")
+                               + "' to '" + args[1].toLowerCase() + "'")
+                username = args[1].toLowerCase()
+                if (username == "theseus")
                     begin_labyrinth_quest()
             }
             break
@@ -414,6 +442,10 @@ async function process_command(command) {
                 error_message = 'Incorrect number of arguments. (expected at least 1)'
             else
                 error_message = await find_and_run_executable(args[1], args.slice(2))
+            break
+        case "less":
+        case "more":
+            error_message = "'" + args[0] + "' command not found. Did you mean 'cat'?"
             break
         case "cat":
             if (args.length != 2)
@@ -433,11 +465,17 @@ async function process_command(command) {
             else
                 change_directory(args.length == 2 ? args[1] : '.')
             break
+        case "sudo":
+            if (username == "root") {
+                process_command(args.slice(1, args.length).join(' '))
+            } else
+                error_message = 'You do not have permission to run this command.'
+            break
         default:
             if (args[0].startsWith('.') || args[0].includes('/'))
                 error_message = await find_and_run_executable(args[0], args.slice(1))
             else
-                error_message = "'" + args[0] + "' command not found"
+                error_message = "'" + args[0] + "' command not found."
     }
     if (error_message != '') {
         terminal_print_special("ERROR: " + error_message, "error bold")
@@ -496,17 +534,19 @@ async function troubleshoot_exe(arg_list=[]) {
     document.getElementById("directory").innerHTML = ''
     document.getElementById("command").disabled = true
     document.getElementById("cursor").innerHTML = ''
-    await terminal_print("\nStarting KnossOS Troubleshooter...", 4000)
+    await terminal_print("\nStarting KnossOS Troubleshooter...", 1500)
     await sleep(4000)
     document.getElementById("output").innerHTML = ''
-    await terminal_print("Oh, hello there, visitor!\n", 2500)
-    await terminal_print("My name is Kody Puebla.\n", 4000)
-    await terminal_print("You must be looking for my website.\n", 4000)
-    await terminal_print("This is the right place! But something seems off...\n", 4000)
-    await terminal_print("Whoops! Looks like I sent you to the back end by mistake.\n", 4000)
-    await terminal_print("I spend most of my time here, so sometimes I forget this isn't the actual website.\n", 6000)
-    await terminal_print("Here, let me give you access to a more user-friendly version.\n", 8000)
+    await terminal_print("Oh, hello there, visitor!\n", 1500)
+    await terminal_print("My name is Kody Puebla.\n", 2000)
+    await terminal_print("You must be looking for my website.\n", 2000)
+    await terminal_print("This is the right place! But something seems off...\n", 2000)
+    await terminal_print("Whoops! Looks like I sent you to the back-end by mistake.\n", 5000)
+    await terminal_print("I spend most of my time here, so sometimes I forget this isn't the actual website.\n", 2000)
+    await terminal_print("Here, let me give you access to a more user-friendly version.\n", 3000)
     await terminal_print_special("A new command has been added: 'upgrade'", "alert bold", 5000)
+    troubleshoot_ran = true
+    COMMANDS_HELP += "\n  upgrade ----------- upgrade the terminal display to a more modern webpage\n"
     document.getElementById("directory").innerHTML = get_working_directory_text()
     document.getElementById("command").disabled = false
     document.getElementById("cursor").innerHTML = CURSOR

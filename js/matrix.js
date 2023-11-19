@@ -1,9 +1,17 @@
-const loader = new THREE.TextureLoader()
-const binary0 = loader.load('../resources/binary0.png')
-const binary1 = loader.load('../resources/binary1.png')
-
 let intersection = null
-
+const loader = new THREE.TextureLoader()
+const rainImages = [
+    loader.load('../resources/binary0.png'),
+    loader.load('../resources/binary1.png'),
+    loader.load('../resources/mu.png'),
+    loader.load('../resources/N.png'),
+    loader.load('../resources/D.png'),
+    loader.load('../resources/vey.png'),
+    loader.load('../resources/zhay.png'),
+    loader.load('../resources/Z.png'),
+    loader.load('../resources/oy.png'),
+    loader.load('../resources/P.png')
+]
 
 function digitalRainAnimationStep(rain) {
     rain.drop_binary(randomInteger(rain.width))
@@ -23,7 +31,7 @@ function mouseAnimationStep(raycaster, mouse, camera, scene, rain) {
     }
 }
 
-function loadCanvas() {
+function loadCanvas(binaryRain=true) {
     const scene = new THREE.Scene()
     const renderer = new THREE.WebGLRenderer({
         antialias: true,
@@ -41,12 +49,12 @@ function loadCanvas() {
     scene.background = new THREE.Color(0x000022)
 
     let digitSize = Math.min(window.innerWidth, window.innerHeight) / 48
-    let rain = new DigitalRain(128, 64, 10, digitSize)
+    let rain = new DigitalRain(128, 64, 10, digitSize, binaryRain)
     for (let i = 0; i < rain.height; i++)
         digitalRainAnimationStep(rain)
     scene.add(rain.mesh)
 
-    let particles = new DigitalParticles(0.5, digitSize)
+    let particles = new DigitalParticles(0.5, digitSize, binaryRain)
     scene.add(particles.mesh)
 
     renderer.render(scene, camera)
