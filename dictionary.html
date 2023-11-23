@@ -16,12 +16,11 @@
         <script type="text/javascript" charset="utf-8" src="js/dictionary.js"></script>
         <script src="https://cdn.jsdelivr.net/pyodide/v0.22.0/full/pyodide.js"></script>
     </head>
-    <body onload="load_body(); loadCanvas(false); showMainMenu()">
+    <body onload="requestDictionary(); load_body(); loadCanvas(false); showMainMenu()">
         <div id="top-text" class="info-text animate-fade-in">
             <div class="title">
                 <img src="resources/arrow-left.svg" class="back-arrow cyan" onclick="navigate_to_page('index.html')">
                 <text style="color:#db9f66;width: fit-content">DRIONEN</text>
-                <text style="margin-left:4%;color:#70d470;width: fit-content">dictionary</text><br>
             </div>
         </div>
         <div class="page">

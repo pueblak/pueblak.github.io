@@ -1,4 +1,4 @@
-const LINE = "    ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯";
+const LINE = "    ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯";
 
 var drionen = [
     {
@@ -168,11 +168,23 @@ function beginSearch() {
 
 }
 
-async function requestDictionary(context) {
-    const ps = context.env.DB.prepare("SELECT * FROM dictionary");
-    const data = await ps.all();
-
-    return Response.json(data);
+async function requestDictionary() {
+    fetch("https://drionen.kody-puebla.com", {
+        method: "FETCH",
+        headers: {
+            "Content-Type": "application/json",
+        }
+    })
+    .catch((error) => {
+        console.error("Error loading dictionary: " + error);
+    })
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+      drionen = data;
+      console.log("Dictionary loaded");
+    });
 }
 
 function beginBrowse() {
@@ -199,8 +211,12 @@ function beginBrowse() {
 
             var line = document.createElement("div");
             line.className = "dictionary-letter-line";
-            line.innerHTML = LINE;
             letterBox.appendChild(line);
+
+            var lineText = document.createElement("text");
+            lineText.className = "dictionary-line-text";
+            lineText.innerHTML = LINE;
+            line.appendChild(lineText);
 
             letterBox.style.visibility = "hidden";
         }
