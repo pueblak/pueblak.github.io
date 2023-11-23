@@ -311,29 +311,43 @@ label.menu-option {
 }
 
 .dictionary-seperator {
-    animation: fade-in 1s ease-in-out 1s;
     display: flex;
+    animation: fade-in 1s ease-in-out 1s;
     flex-direction: row;
+    flex: 0 0 auto;
     justify-content: flex-end;
-    align-items: center;
-    width: 100%;
-    height: 1.2rem;
-    margin-top: 0.4rem;
-    margin-right: 1rem;
+    width: 14rem;
+    height: 1.5rem;
+    margin-left: 0.5rem;
     color: #70d4ffb0;
 }
 
 .dictionary-line {
-    display: flex;
-    width: 100%;
+    display: block;
+    min-width: 13rem;
+    max-width: 13rem;
+    justify-content: center;
+    align-items: center;
     height: 0.5rem;
-    margin-top: 0.5rem;
+    margin: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: clip;
+}
+
+.dictionary-line-text {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    width: 13rem;
+    height: 1.5rem;
+    overflow: hidden;
 }
 
 .dictionary-letter {
     display: flex;
     flex-direction: row;
-    margin-left: 1rem;
     font-size: 1.2rem;
     font-family: "Drionen";
     font-weight: 500;

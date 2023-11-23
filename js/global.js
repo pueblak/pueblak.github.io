@@ -17,29 +17,14 @@ class DigitalRain {
         for (let x = 0; x <= this.width; x++) {
             this.matrix.push([])
             for (let y = 0; y <= this.height; y++) {
-                let rainImageIndex = Math.floor(Math.random() * 4)
-                switch (rainImageIndex) {
-                    case 0:
-                        if (!binary)
-                            rainImageIndex = 2
-                        break
-                    case 1:
-                        if (!binary)
-                            rainImageIndex = 3
-                        break
-                    case 2:
-                        if (binary)
-                            rainImageIndex = 0
-                        else
-                            rainImageIndex = 4
-                        break
-                    case 3:
-                        if (binary)
-                            rainImageIndex = 1
-                        else
-                            rainImageIndex = 5
-                        break
-                }
+                let rainImageIndex = Math.floor(Math.random() * 8)
+                if (binary)
+                    rainImageIndex = Math.floor(rainImageIndex / 4)
+                else
+                    rainImageIndex += 2
+                if (!binary && ((y > 0 && this.matrix[x][y - 1].index == rainImageIndex)
+                            || (x > 0 && this.matrix[x - 1][y].index == rainImageIndex)))
+                    rainImageIndex = ((rainImageIndex - 1) % 8) + 2
                 this.matrix[x].push({
                     x: x,
                     y: y,
@@ -69,6 +54,7 @@ class DigitalRain {
         }
         this.mesh.scale.set(24, 24, 24)
         this.sources = []
+        this.binary = binary
     }
 
     illuminate(x, y, scale=1.0) {
@@ -106,11 +92,17 @@ class DigitalRain {
             const x = source.x
             const y = source.y
             if (y < this.height) {
-                this.matrix[x][y].index += 1
-                if (this.matrix[x][y].index >= rainImages.length)
-                    this.matrix[x][y].index = 2
-                else if (this.matrix[x][y].index == 2)
-                    this.matrix[x][y].index = 0
+                if (this.binary)
+                    this.matrix[x][y].index = (this.matrix[x][y].index + 1) % 2
+                else {
+                    this.matrix[x][y].index = ((this.matrix[x][y].index - 1) % 8) + 2
+                    while ((y > 0 && this.matrix[x][y - 1].index == this.matrix[x][y].index)
+                            || (x > 0 && this.matrix[x - 1][y].index == this.matrix[x][y].index)
+                            || (y < this.height && this.matrix[x][y + 1].index == this.matrix[x][y].index)
+                            || (x < this.width && this.matrix[x + 1][y].index == this.matrix[x][y].index)) {
+                        this.matrix[x][y].index = ((this.matrix[x][y].index - 1) % 8) + 2
+                    }
+                }
                 this.matrix[x][y].material.map = rainImages[this.matrix[x][y].index]
                 this.matrix[x][y].material.color = new THREE.Color(0xd4ffd4)
                 this.illuminate(x, y)
@@ -121,11 +113,17 @@ class DigitalRain {
             const x = Math.floor(Math.random() * this.width)
             const y = Math.floor(Math.random() * this.height)
             if (!this.sources.includes({x: x, y: y}) && this.matrix[x][y].material.opacity >= 0.25) {
-                this.matrix[x][y].index += 1
-                if (this.matrix[x][y].index >= rainImages.length)
-                    this.matrix[x][y].index = 2
-                else if (this.matrix[x][y].index == 2)
-                    this.matrix[x][y].index = 0
+                if (this.binary)
+                    this.matrix[x][y].index = (this.matrix[x][y].index + 1) % 2
+                else {
+                    this.matrix[x][y].index = ((this.matrix[x][y].index - 1) % 8) + 2
+                    while ((y > 0 && this.matrix[x][y - 1].index == this.matrix[x][y].index)
+                            || (x > 0 && this.matrix[x - 1][y].index == this.matrix[x][y].index)
+                            || (y < this.height && this.matrix[x][y + 1].index == this.matrix[x][y].index)
+                            || (x < this.width && this.matrix[x + 1][y].index == this.matrix[x][y].index)) {
+                        this.matrix[x][y].index = ((this.matrix[x][y].index - 1) % 8) + 2
+                    }
+                }
                 this.matrix[x][y].material.map = rainImages[this.matrix[x][y].index]
             }
         }
@@ -150,29 +148,11 @@ class DigitalParticles {
     addParticle(x, y, z, scale=1.0, distance=10.0) {
         const geometry = new THREE.BufferGeometry()
         geometry.setAttribute('position', new THREE.BufferAttribute(new Float32Array([x, y, z]), 3))
-        let rainImageIndex = Math.floor(Math.random() * 4)
-        switch (rainImageIndex) {
-            case 0:
-                if (!this.binary)
-                    rainImageIndex = 2
-                break
-            case 1:
-                if (!this.binary)
-                    rainImageIndex = 3
-                break
-            case 2:
-                if (this.binary)
-                    rainImageIndex = 0
-                else
-                    rainImageIndex = 4
-                break
-            case 3:
-                if (this.binary)
-                    rainImageIndex = 1
-                else
-                    rainImageIndex = 5
-                break
-        }
+        let rainImageIndex = Math.floor(Math.random() * 8)
+        if (this.binary)
+            rainImageIndex = Math.floor(rainImageIndex / 4)
+        else
+            rainImageIndex += 2
         const material = new THREE.PointsMaterial({
             color: 0x70ff70,
             size: this.targetSize * scale,
